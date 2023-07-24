@@ -29,5 +29,8 @@ Route::prefix('admin')->middleware('auth', 'isAdmin')->group(function () {
     // Rota para processar o formulário de edição (se houver)
     Route::put('/category/{category}', [CategoryController::class, 'update'])->name('category.update');
 
- 
+    // Rota para brands
+    Route::get('/brands', App\Http\Livewire\Admin\Brand\Index::class)->name('brands');
+    Route::get('/brands/create', [CategoryController::class, 'create'])->name('brands.create');
+    Route::post('/brands', [CategoryController::class, 'store'])->name('brands.store');
 });

@@ -40,12 +40,11 @@ class Index extends Component
             $this->dispatchBrowserEvent('close-modal');
 
         }
-    }
-    
+    }    
 
     public function render()
     {
-        $categories = Category::orderBy('id','DESC')->paginate(10);
+        $categories = Category::orderBy('name','ASC')->paginate(10);
         return view('livewire.admin.category.index',['categories' => $categories]);
     }
 }
