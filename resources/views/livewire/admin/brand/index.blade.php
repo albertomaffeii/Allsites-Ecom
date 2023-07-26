@@ -17,17 +17,17 @@
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Slug</th>
-                                <th>Status</th>
-                                <th colspan='2'><center>Action</center></th>
+                                <th scope="col">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Slug</th>
+                                <th scope="col">Status</th>
+                                <th scope="col" colspan='2'><center>Action</center></th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse($brands as $item)
                                 <tr>
-                                    <td>{{ $item->id }}</td>
+                                    <td scope="row">{{ $loop->index +1 }}</td>
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->slug }}</td>
                                     <td>{{ $item->status == '1' ? 'Hidden':'visible' }}</td>
@@ -45,7 +45,7 @@
                             @empty
                                 <tr>
                                     <td colspan="5">
-                                        No BrandsFound
+                                        No Brands Found.
                                     </td>
                                 </tr>
                             @endforelse

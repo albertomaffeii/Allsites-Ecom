@@ -1,43 +1,23 @@
-<div>
-    <!-- Modal -->
-    <div wire:ignore.self class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">Category Delete</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
+@extends('layouts.admin')
 
-        <form wire:submit.prevent="destroyCategory">
+@section('content')
 
-            <div class="modal-body">
-                <h6>
-                    Are you sure that you want to delete this category?
-                </h6>
+<div class="row">
+    <div class="col-md-12">
+
+        @if(session('message'))
+            <div class="alert alert-success">
+                {{ session('message') }}
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary text-white">Yes. Delete.</button>
+        @endif
+        
+        <div class="card">
+            <div class="card-header">
+                <h4>Products
+                    <a href="{{ route('products.create') }}" class="btn btn-primary text-white float-end btn-sm">Add Product</a>
+                </h4>
             </div>
-        </form>
-        </div>
-    </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-12">
-            @if(session('message'))
-                <div class="alert alert-success">
-                    {{ session('message') }}
-                </div>
-            @endif
-            <div class="card">
-                <div class="card-header">
-                    <h4>Category
-                        <a href="{{ route('category.create') }}" class="btn btn-primary text-white float-end btn-sm">Add Category</a>
-                    </h4>
-                </div>
-                <div class="card-body">
+            <div class="card-body">
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
@@ -48,7 +28,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($categories as $item)
+                            @forelse($products as $item)
                                 <tr>
                                     <td scope="row">{{ $loop->index +1 }}</td>
                                     <td>{{ $item->name }}</td>
@@ -67,17 +47,16 @@
                                 @empty
                                 <tr>
                                     <td colspan="5">
-                                        No Categories Found.
+                                        No Products Found.
                                     </td>
                                 </tr>
                             @endforelse
                         </tbody>
                     </table>
                     <div>
-                        {{ $categories -> links() }}
+                        {{ $products -> links() }}
                     </div>
-                </div>
-            </div>
+                </div>>
         </div>
     </div>
 </div>
@@ -96,3 +75,5 @@
 
 
 @endpush
+
+@endsection
