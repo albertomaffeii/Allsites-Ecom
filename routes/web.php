@@ -27,9 +27,15 @@ Route::prefix('admin')->middleware('auth', 'isAdmin')->group(function () {
 
     //Products Routes
     Route::controller(ProductController::class)->group(function () {
-        Route::get('admin/products', 'index')->name('products');
-        Route::get('admin/products/create', 'create')->name('products.create');
-        Route::post('admin/products', 'store')->name('products.store');
+        Route::get('/products', 'index')->name('products');
+        Route::get('/products/create', 'create')->name('products.create');
+        Route::post('/products', 'store')->name('products.store');
+        Route::get('/products/{product}/edit', 'edit')->name('products.edit');
+        Route::put('/products/{product}', 'update')->name('products.update');
+        Route::get('/products/{product_id}/delete','destroy')->name('products.delete');
+
+        Route::get('/product-image/{product_image_id}/delete', 'destroyImage');
+
     });
 
     // Rota para brands

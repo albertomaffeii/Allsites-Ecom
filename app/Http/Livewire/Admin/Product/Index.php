@@ -14,7 +14,7 @@ class Index extends Component
 
     public function render()
     {
-        $products = Product::orderBy('name','ASC')->paginate(10);
-        return route('products', compact('products'));
+        $products = Products::orderBy('name','ASC')->paginate(10);
+        return view('admin.products.index',['products' => $products]);
     }
 }
