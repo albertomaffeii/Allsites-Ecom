@@ -9,7 +9,7 @@
             @endif
             <div class="card">
                 <div class="card-header">
-                    <h4>List Brands
+                    <h4>Brands List 
                         <a href="#" data-bs-toggle="modal" data-bs-target="#addBrandModal" class="btn btn-primary text-white float-end btn-sm">Add Brands</a>
                     </h4>
                 </div>

@@ -74,7 +74,7 @@ class ProductController extends Controller
             }
         }
 
-        return redirect('admin.products')->with('message','Product Added Succesfully');
+        return redirect()->route('products')->with('message','Product Added Succesfully');
     }
     
     public function edit(int $product_id)
@@ -160,7 +160,7 @@ class ProductController extends Controller
 
         $product->delete();
 
-        return redirect('admin.products.index')->with('message', 'product deleted successfully!');
+        return redirect()->route('products')->with('message', 'Product deleted successfully!');
 
     }
 }

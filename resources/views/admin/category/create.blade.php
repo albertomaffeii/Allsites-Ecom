@@ -16,7 +16,7 @@
                     <div class="row">
                         <div class="col-md-12 mb-4">
                             <label for="name">Name</label>
-                            <input type="text" class="form-control" name="name" max="60" />
+                            <input type="text" class="form-control" name="name" id="name" max="60" onblur="suggestMetaTitle('name','meta_title');" />
                             @error('name') 
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
@@ -47,7 +47,7 @@
                         </div>
                         <div class="col-md-6 mb-4">
                             <label for="meta_title">Meta Title</label>
-                            <input type="text" class="form-control" name="meta_title" />
+                            <input type="text" class="form-control" name="meta_title" id="meta_title" />
                             @error('meta_title') 
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
