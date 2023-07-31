@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ColorController;
 use App\Http\Middleware\AdminMiddleware;
 
 Route::get('/', function () {
@@ -38,8 +39,17 @@ Route::prefix('admin')->middleware('auth', 'isAdmin')->group(function () {
 
     });
 
-    // Rota para brands
+    // Brands Route
     Route::get('/brands', App\Http\Livewire\Admin\Brand\Index::class)->name('brands');
 
-    // Rota para Products
+    //Colors Routes
+        Route::controller(ColorController::class)->group(function () {
+            Route::get('/colors', 'index')->name('colors');
+            Route::get('/colors/create', 'create')->name('colors.create');
+            Route::post('/colors/create', 'store')->name('colors.store');
+
+            Route::get('/colors/{color}/edit', 'edit')->name('colors.edit');
+            Route::put('/colors/{color_id}', 'update')->name('colors.update');
+            Route::get('/colors/{color_id}/delete','destroy')->name('colors.delete');        
+        });
 });
