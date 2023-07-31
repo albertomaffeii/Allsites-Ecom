@@ -8,8 +8,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Category;
 use App\Models\Brand;
+use App\Models\Color;
 use App\Models\Product;
 use App\Models\ProductImage;
+use App\Models\ProductColor;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\File;
@@ -30,8 +32,9 @@ class ProductController extends Controller
     {
         $categories = Category::all();
         $brands = Brand::all();
+        $colors = Color::where('status','0')->get();
 
-        return view('admin.products.create', compact('categories', 'brands'));
+        return view('admin.products.create', compact('categories', 'brands', 'colors'));
     }    
     
     public function store(ProductFormRequest $request) {
@@ -39,6 +42,7 @@ class ProductController extends Controller
         $validatedData = $request->validated();
 
         $category = Category::findOrFail($validatedData['category_id']);
+        $colors = Color::where('status','0')->get();
 
         $product = $category->products()->create([
             'category_id' => $validatedData['category_id'],
@@ -73,6 +77,18 @@ class ProductController extends Controller
                 ]);
             }
         }
+
+        if($request->$colors){
+            foreach ($request->$colors as $key => $color) {
+                $product->productColors()->create([
+                    'product_id' => $product->id,
+                    'color_id' => colors,
+                    'quantity' => $request ->colorquantity[$key] ?? 0
+                ]);
+            }
+        }
+
+
 
         return redirect()->route('products')->with('message','Product Added Succesfully');
     }
