@@ -33,7 +33,10 @@
                             <button class="nav-link" id="details-tab" data-bs-toggle="tab" data-bs-target="#details-tab-pane" type="button" role="tab" aria-controls="details-tab-pane" aria-selected="false">Details</button>
                         </li>                        
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="image-tab" data-bs-toggle="tab" data-bs-target="#image-tab-pane" type="button" role="tab" aria-controls="image-tab-pane" aria-selected="false">Image</button>
+                            <button class="nav-link" id="image-tab" data-bs-toggle="tab" data-bs-target="#image-tab-pane" type="button" role="tab" aria-controls="image-tab-pane" aria-selected="false">Product Images</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="color-tab" data-bs-toggle="tab" data-bs-target="#color-tab-pane" type="button" role="tab" aria-controls="color-tab-pane" aria-selected="false">Product Colors</button>
                         </li>
                     </ul>
 
@@ -139,7 +142,7 @@
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="status" value="1" /> Hidden
                                 </div>
                             </div>
-                        </div>
+                        </div>                        
                     
                         <div class="tab-pane fade border p-3" id="image-tab-pane" role="tabpanel" aria-labelledby="image-tab" tabindex="0">
                             <div class="row">                            
@@ -155,9 +158,35 @@
                                     <small class="form-text text-muted">Select one or multiple images related to the product.<br />Use the 'Ctrl' key (or 'Command' on Mac) to select multiple images.</small> 
                                 </div>
                             </div>
+                        </div>                    
+                        
+                        <div class="tab-pane fade border p-3" id="color-tab-pane" role="tabpanel" aria-labelledby="color-tab" tabindex="0">
+                            <div class="col-md-12 mb-4">
+                                <label for="image">Select Color</label>
+                                    <div class="row">
+                                        @forelse($colors as $colorItem)
+                                            <div class="col-md-3">
+                                                <div class="p-2 border mb-3">
+
+                                                    Color: &nbsp;<input type="checkbox" name="colors[{{ $colorItem->id }}]" value="{{ $colorItem->id }}" /> 
+                                                    &nbsp;&nbsp;{{ $colorItem->name }}<br />
+                                                    Quantity: &nbsp;<input type="number" name="colorquantity[{{ $colorItem->id }}]" style="width:70px; border:1px solid" />                                            
+
+                                                </div>
+                                            </div>
+                                        @empty
+                                            <div class="col-md-12">
+                                                <h5>No colors found.</h5>
+                                            </div>
+                                        @endforelse
+                                    </div>
+                                @error('images') 
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-sm text-white">Submit</button>
+                    <button type="submit" class="btn btn-primary btn-sm text-white">Save</button>
                 </form>
             </div>
         </div>
