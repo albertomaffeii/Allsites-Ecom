@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\File;
 class Index extends Component
 {
     use WithPagination;
-    protected $PaginationTheme = "bootstrap";
+    protected $paginationTheme = "bootstrap";
 
     public $category_id;
 
