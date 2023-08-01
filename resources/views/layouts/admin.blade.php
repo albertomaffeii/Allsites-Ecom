@@ -8,7 +8,9 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Allsites Ecom') }}</title>    <!-- plugins:css -->
+    <title>{{ config('app.name', 'Allsites Ecom') }}</title>    
+    
+    <!-- plugins:css -->
     <link rel="stylesheet" href="{{ asset('admin/vendors/mdi/css/materialdesignicons.min.css') }}">
     <link rel="stylesheet" href="{{ asset('admin/vendors/base/vendor.bundle.base.css') }}">
     
@@ -76,6 +78,8 @@
 <script src="{{ asset('assets/js/scripts.js')}}"></script>
 <script src="{{ asset('assets/js/jquery-3.7.0.min.js')}}"></script>
 <script src="{{ asset('assets/js/bootstrap.bundle.min.js')}}"></script>
+
+@yield('scripts')
 
 @livewireScripts
 @stack('script')

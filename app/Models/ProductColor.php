@@ -11,13 +11,16 @@ class ProductColor extends Model
 
     protected $table = 'product_colors';
 
-    protected $guarded = [];
+    //protected $guarded = [];
 
     protected $fillable = [
         'product_id',
         'color_id',
-        'colorquantity',
-        'product_id',
-        'color_id'       
+        'quantity' 
     ];
+
+    public function color()
+    {
+        return $this->belongsTo(Color::class, 'color_id', 'id');
+    }
 }
