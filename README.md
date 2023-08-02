@@ -50,7 +50,14 @@ This is a complete Ecommerce System project developed in PHP 8.2.4 using Laravel
 
    php artisan serve
 
+   php artisan migrate --seeder
+
 7. Access the system through your browser at `http://localhost:8000`.
+
+   An Administrator user will be created with login: admin@admin.com and password: senha123 .
+   Log in with this user to start using the system. I recommend that you register the sections in this order: Categories, Brands, Colors, Products and Home Slider.
+
+
 
 ## How to Contribute
 
@@ -123,7 +130,14 @@ php artisan migrate
 
 php artisan serve
 
+php artisan migrate --seeder
+
 7. Acesse o sistema através do seu navegador em `http://localhost:8000`.
+
+Será criado um usuário Administrador com o login admin@admin.com e a senha Senha123. Faça o acesso com este usuário pra começar a utilizar o sistema.
+Recomendo que cadastre as seções nesta ordem: Categorias, Marcas, Cores, Produtos e Home Slider.
+
+
 
 ## Como Contribuir
 
