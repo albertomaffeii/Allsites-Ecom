@@ -70,13 +70,13 @@
             </div>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="documentation/documentation.html">
-              <i class="mdi mdi-file-document-box-outline menu-icon"></i>
+            <a class="nav-link" href="{{ route('sliders') }}">
+              <i class="mdi mdi-view-carousel menu-icon"></i>
               <span class="menu-title">Home Slider</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="documentation/documentation.html">
+            <a class="nav-link" href="{{ route('colors') }}">
               <i class="mdi mdi-settings menu-icon"></i>
               <span class="menu-title">Site Setting</span>
             </a>

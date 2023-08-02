@@ -11,7 +11,7 @@ class ProductColor extends Model
 
     protected $table = 'product_colors';
 
-    //protected $guarded = [];
+    protected $guarded = [];
 
     protected $fillable = [
         'product_id',
