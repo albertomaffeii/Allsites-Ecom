@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ColorController;
+use App\Http\Controllers\Admin\SliderController;
 use App\Http\Middleware\AdminMiddleware;
 
 Route::get('/', function () {
@@ -44,13 +45,22 @@ Route::prefix('admin')->middleware('auth', 'isAdmin')->group(function () {
     Route::get('/brands', App\Http\Livewire\Admin\Brand\Index::class)->name('brands');
 
     //Colors Routes
-        Route::controller(ColorController::class)->group(function () {
-            Route::get('/colors', 'index')->name('colors');
-            Route::get('/colors/create', 'create')->name('colors.create');
-            Route::post('/colors/create', 'store')->name('colors.store');
+    Route::controller(ColorController::class)->group(function () {
+        Route::get('/colors', 'index')->name('colors');
+        Route::get('/colors/create', 'create')->name('colors.create');
+        Route::post('/colors/create', 'store')->name('colors.store');
+        Route::get('/colors/{color}/edit', 'edit')->name('colors.edit');
+        Route::put('/colors/{color_id}', 'update')->name('colors.update');
+        Route::get('/colors/{color_id}/delete','destroy')->name('colors.delete');        
+    });
 
-            Route::get('/colors/{color}/edit', 'edit')->name('colors.edit');
-            Route::put('/colors/{color_id}', 'update')->name('colors.update');
-            Route::get('/colors/{color_id}/delete','destroy')->name('colors.delete');        
-        });
+    //sliders Routes
+    Route::controller(SliderController::class)->group(function () {
+        Route::get('/sliders', 'index')->name('sliders');
+        Route::get('/sliders/create', 'create')->name('sliders.create');
+        Route::post('/sliders/create', 'store')->name('sliders.store');    
+        Route::get('/sliders/{color}/edit', 'edit')->name('sliders.edit');
+        Route::put('/sliders/{color_id}', 'update')->name('sliders.update');
+        Route::get('/sliders/{color_id}/delete','destroy')->name('sliders.delete');        
+    });
 });
