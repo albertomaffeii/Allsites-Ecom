@@ -59,8 +59,8 @@ Route::prefix('admin')->middleware('auth', 'isAdmin')->group(function () {
         Route::get('/sliders', 'index')->name('sliders');
         Route::get('/sliders/create', 'create')->name('sliders.create');
         Route::post('/sliders/create', 'store')->name('sliders.store');    
-        Route::get('/sliders/{color}/edit', 'edit')->name('sliders.edit');
-        Route::put('/sliders/{color_id}', 'update')->name('sliders.update');
-        Route::get('/sliders/{color_id}/delete','destroy')->name('sliders.delete');        
+        Route::get('/sliders/{slider}/edit', 'edit')->name('sliders.edit');
+        Route::put('/sliders/{slider}', 'update')->name('sliders.update');
+        Route::get('/sliders/{slider}/delete','destroy')->name('sliders.delete');        
     });
 });

@@ -66,24 +66,63 @@ class SliderController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Slider $slider)
     {
-        //
+        return view('admin.sliders.edit', compact('slider'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(SliderFormRequest $request, Slider $slider)
     {
-        //
+        $validatedData = $request->validated();
+
+        $destination = $slider->image;
+
+        if($request->hasFile('image')){
+
+            if(File::exists($destination)){
+                File::delete($destination);
+            }
+
+            $uploadPath = 'uploads/sliders';
+            $imageFile = $request->file('image');
+            $extention = $imageFile->getClientOriginalExtension();
+            $filename = time() . '.' . $extention;
+            $imageFile->move($uploadPath,$filename);
+            $destination = $uploadPath . '/' . $filename;
+        }
+
+        Slider::where('id',$slider->id)->update([
+            'title' => $validatedData['title'],
+            'description' => $validatedData['description'],
+            'image' => $destination,
+            'status' => $validatedData['status'],        
+        ]);
+
+        return redirect()->route('sliders')->with('message', 'Slider uploaded succesfully');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Slider $slider)
     {
-        //
+        if($slider->count() > 0){
+
+            $destination = $slider->image;
+
+            if(File::exists($destination)){
+                File::delete($destination);
+            }
+
+            $slider ->delete();
+
+            return redirect()->route('sliders')->with('message', 'Slider deleted succesfully');
+        }
+
+        return redirect()->route('sliders')->with('message', 'Something went wrong');
+
     }
 }
