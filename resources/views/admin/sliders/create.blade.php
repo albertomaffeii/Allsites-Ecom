@@ -30,6 +30,7 @@
                     <div class="row">
                         <div class="col-md-6 mb-4">
                             <label for="image">Slide Image</label>
+                            <small>Recommended image size: 1200 x 400</small>
                             <input type="file" class="form-control" name="image" />
                             @error('image') 
                                 <small class="text-danger">{{ $message }}</small>

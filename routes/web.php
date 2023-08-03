@@ -2,6 +2,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
@@ -9,8 +10,13 @@ use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Middleware\AdminMiddleware;
 
-Route::get('/', function () {
-    return view('welcome');
+//Route::get('/', function () {
+//    return view('welcome');
+//});
+
+
+Route::controller(FrontendController::class)->group(function () {
+    Route::get('/', 'index')->name('welcome');
 });
 
 Auth::routes();
