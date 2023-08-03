@@ -33,8 +33,8 @@
                             @forelse($sliders as $item)
                                 <tr>
                                     <td scope="row">{{ $loop->index +1 }}</td>
-                                    <td>{{ $item->title }}</td>
-                                    <td>{{ $item->description }}</td>
+                                    <td>{!! $item->title !!}</td>
+                                    <td>{!! $item->description !!}</td>
                                     <td>
                                         <img src="{{ asset("$item->image") }}" alt="Slider" style="width: 70px; height: 70px" class="bordered">
                                     </td>

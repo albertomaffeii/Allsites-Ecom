@@ -31,7 +31,8 @@
                     </div> 
                     <div class="row">
                         <div class="col-md-6 mb-4">
-                            <label for="image">Slide Image</label>
+                            <label for="image">Slide Image</label>                            
+                            <small>Recommended image size: 1200 x 400</small>
                             <input type="file" class="form-control" name="image" />
                             <img src="{{ asset("$slider->image") }}" alt="Slider" style="height: 150px" class="bordered">
                             @error('image') 
