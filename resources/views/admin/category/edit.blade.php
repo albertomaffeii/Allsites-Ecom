@@ -34,10 +34,12 @@
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
+                        
                         <div class="col-md-6 mb-4">
                             <label for="image">Image</label>
+                            <small class="text-secondary">Recommended image size: 225 x 225</small>
                             <input type="file" class="form-control" name="image" accept="image/jpeg, image/png" />
-                            <img src="{{ asset('/uploads/category/' . $category->image) }}" width="150px">
+                            <img src="{{ asset("$category->image") }}" width="150px">
                             @error('image') 
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror

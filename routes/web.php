@@ -17,11 +17,14 @@ use App\Http\Middleware\AdminMiddleware;
 
 Route::controller(FrontendController::class)->group(function () {
     Route::get('/', 'index')->name('welcome');
+    Route::get('/collections', 'categories')->name('collections');
+    Route::get('/collections/{category_slug}', 'products');
+    Route::get('/new-arrivals', 'index')->name('new-arrivals');
 });
 
 Auth::routes();
 
-Route::post('/home', [HomeController::class, 'index'])->name('home');
+Route::post('/home', [HomeController::class, 'index']);
 
 Route::prefix('admin')->middleware('auth', 'isAdmin')->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');

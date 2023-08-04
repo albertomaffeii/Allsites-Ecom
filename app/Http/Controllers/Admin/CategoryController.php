@@ -33,6 +33,7 @@ class CategoryController extends Controller
                 $validatedData = $request->validated();
 
                 $filename = "no-image.png";
+                $uploadPath = "uploads/category/";
 
                 if ($request->hasFile('image') && $request->file('image')->isValid()) {
                     $file = $request->file('image');
@@ -41,7 +42,7 @@ class CategoryController extends Controller
                     // Verifique se a extensão é permitida (jpg, jpeg, png)
                     if (in_array($ext, ['jpg', 'jpeg', 'png'])) {
                         $filename = time() . '.' . $ext;
-                        $file->move('uploads/category', $filename);
+                        $file->move($uploadPath, $filename);
                     } else {
                         return redirect()->route('category.create')->with('error', "The image extension must be in 'jpg', 'jpeg' or 'png' format.");
                     }
@@ -51,7 +52,7 @@ class CategoryController extends Controller
                     'name' => $validatedData['name'],
                     'slug' => Str::slug($validatedData['name']),
                     'description' => $validatedData['description'],
-                    'image' => $filename,
+                    'image' => $uploadPath.$filename,
                     'status' => $validatedData['status'],
                     'meta_title' => $validatedData['meta_title'],
                     'meta_keyword' => $validatedData['meta_keyword'],
@@ -77,9 +78,10 @@ class CategoryController extends Controller
         $validatedData = $request->validated();
 
         $filename = "no-image.png";
+        $uploadPath = "uploads/category/";
 
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
-            $path = 'uploads/category/' . $category->image;
+            $path = $uploadPath . $category->image;
             if (File::exists($path) && $category->image !='no-image.png') {
                 File::delete($path);
             }
@@ -90,7 +92,7 @@ class CategoryController extends Controller
             // Verifique se a extensão é permitida (jpg, jpeg, png)
             if (in_array($ext, ['jpg', 'jpeg', 'png'])) {
                 $filename = time() . '.' . $ext;
-                $file->move('uploads/category', $filename);
+                $file->move($uploadPath, $filename);
             } else {
                 return redirect()->route('category.create')->with('error', "The image extension must be in 'jpg', 'jpeg' or 'png' format.");
             }
@@ -100,7 +102,7 @@ class CategoryController extends Controller
             'name' => $validatedData['name'],
             'slug' => Str::slug($validatedData['name']),
             'description' => $validatedData['description'],
-            'image' => $filename,
+            'image' => $uploadPath.$filename,
             'status' => $validatedData['status'],
             'meta_title' => $validatedData['meta_title'],
             'meta_keyword' => $validatedData['meta_keyword'],

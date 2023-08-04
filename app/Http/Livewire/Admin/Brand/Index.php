@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Admin\Brand;
 
 use App\Models\Brand;
+use App\Models\Category;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Support\Str;
@@ -13,30 +14,58 @@ class Index extends Component
 { 
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-    public $name, $slug, $status, $brand_id;
+    public $name, $slug, $status, $brand_id, $category_id;
 
-    public function rules()
-    {
-        $brandId = Route::current()->parameter('brands');
-
-        return [
-            'name' => [
-                'required',
-                'string',
-                Rule::unique('brands')->ignore($brandId),
-            ],
-            'status' => 'required|nullable'
+    public function rules(){
+        return[
+            'name' => 'required|string',
+            'slug' => 'required|string',
+            'category_id' => 'required|integer',
+            'status' => 'nullable'
         ];
-
     }
+
+    /*public function rules()
+    {
+        $brand = Brand::where('slug', $this->slug)->first();
+
+        if ($brand != null) {
+
+            
+            $brandId = $brand->id;
+
+            // Regras de validação para a atualização de um registro existente
+            return [
+                'slug' => [
+                    'required',
+                    'string',
+                    Rule::unique('brands')->ignore($brandId, 'id'),
+                ],        
+            'name' => 'required|string',
+            'category_id' => 'required|integer',
+            'status' => 'required|nullable'
+            ];
+        } else {
+            return [
+                'slug' => [
+                    'required',
+                    'string',
+                    'unique:brands,slug',],
+                'name' => 'required|string',
+                'category_id' => 'required|integer',
+                'status' => 'required|nullable'
+            ];
+        }
+    }*/
 
     public function storeBrand()
     {
         $validatedData = $this->validate();
         Brand::create([
             'name' => $this->name,
-            'slug' => Str::slug($this->name),
-            'status' => $this->status
+            'slug' => Str::slug($this->slug),
+            'status' => $this->status,
+            'category_id' => $this->category_id
         ]);
 
         session()->flash('message', 'Brand Added Successfully');
@@ -53,7 +82,7 @@ class Index extends Component
         $this->slug = NULL;
         $this->status = 0;
         $this->brand_id = NULL;
-        
+        $this->category_id = NULL;        
     }
 
     public function closeModal(){
@@ -69,8 +98,9 @@ class Index extends Component
         $brand = Brand::findOrFail($brand_id);
         $this->brand_id = $brand_id;
         $this->name = $brand->name;
+        $this->slug = $brand->slug;
         $this->status =  $brand->status;
-        
+        $this->category_id =  $brand->category_id;        
     }
 
     public function updateBrand() 
@@ -78,8 +108,9 @@ class Index extends Component
         $validatedData = $this->validate();
         Brand::findOrFail($this->brand_id)->update([
             'name' => $this->name,
-            'slug' => Str::slug($this->name),
-            'status' => $this->status
+            'slug' => Str::slug($this->slug),
+            'status' => $this->status,
+            'category_id' => $this->category_id
         ]);
 
         session()->flash('message', 'Brand Updated Successfully');
@@ -107,9 +138,9 @@ class Index extends Component
 
     public function render()
     {
-       // Buscar as Brands paginadas do banco de dados
+       $categories = Category::where('status','0')->get();
        $brands = Brand::orderBy('name','ASC')->paginate(10);
-       return view('livewire.admin.brand.index', compact('brands'))
+       return view('livewire.admin.brand.index', ['brands' => $brands, 'categories'=>$categories])
             ->extends('layouts.admin')
             ->section('content');
     }
