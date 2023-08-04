@@ -30,6 +30,7 @@
                         </div>
                         <div class="col-md-6 mb-4">
                             <label for="image">Image</label>
+                            <small class="text-secondary">Recommended image size: 225 x 225</small>
                             <input type="file" class="form-control" name="image" accept="image/jpeg, image/png" />
                             @error('image') 
                                 <small class="text-danger">{{ $message }}</small>

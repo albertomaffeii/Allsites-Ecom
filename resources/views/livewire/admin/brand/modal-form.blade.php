@@ -11,14 +11,33 @@
         <form wire:submit.prevent="storeBrand()">
 
             <div class="modal-body">
-                <div class="md-3">
+                <div class="md-3 p-1">
+                    <label for="category">Select Category</label>
+                    <select wire:model.defer="category_id" class="form-control">
+                        <option value=""> -- Select Category --</option>
+                        @foreach($categories as $cateItem)
+                            <option value="{{ $cateItem->id }}">{{ $cateItem->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('category_id') 
+                        <small class="text-danger">{{ $message }}</small> 
+                    @enderror
+                </div>
+                <div class="md-3 p-3">
                     <label for="name">Brand Name</label>
-                    <input type="text" wire:model.defer="name" class="form-control">
+                    <input type="text" wire:model.defer="name" class="form-control"  >
                     @error('name') 
                         <small class="text-danger">{{ $message }}</small> 
                     @enderror
                 </div>
-                <div class="md-3">
+                <div class="md-3 p-3">
+                    <label for="slug">Brand Slug</label>
+                    <input type="text" wire:model.defer="slug" class="form-control">
+                    @error('slug') 
+                        <small class="text-danger">{{ $message }}</small> 
+                    @enderror
+                </div>
+                <div class="md-3 p-3">
                     <label for="status">Status</label><br />
                     &nbsp;&nbsp;&nbsp;<input type="radio" name="status" wire:model.defer="status" value='0' checked /> Visible&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="status" wire:model.defer="status" value='1' /> Hidden <br />
                     @error('status') 
@@ -54,14 +73,33 @@
         <div wire:loading.remove>
             <form wire:submit.prevent="updateBrand()">
                 <div class="modal-body">
-                    <div class="md-3">
+                    <div class="md-3 p-1">
+                    <label for="category">Select Category</label>
+                    <select wire:model.defer="category_id" class="form-control">
+                        <option value=""> -- Select Category --</option>
+                        @foreach($categories as $cateItem)
+                            <option value="{{ $cateItem->id }}">{{ $cateItem->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('category_id') 
+                        <small class="text-danger">{{ $message }}</small> 
+                    @enderror
+                </div>
+                    <div class="md-3 p-3">
                         <label for="name">Brand Name</label>
                         <input type="text" wire:model.defer="name" class="form-control">
                         @error('name') 
                             <small class="text-danger">{{ $message }}</small> 
                         @enderror
                     </div>
-                    <div class="md-3">
+                    <div class="md-3 p-3">
+                        <label for="slug">Brand Slug</label>
+                        <input type="text" wire:model.defer="slug" class="form-control">
+                        @error('slug') 
+                            <small class="text-danger">{{ $message }}</small> 
+                        @enderror
+                    </div>
+                    <div class="md-3 p-3">
                         <label for="status">Status</label><br />
                         &nbsp;&nbsp;&nbsp;<input type="radio" name="status" wire:model.defer="status" value='0' checked /> Visible&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="status" wire:model.defer="status" value='1' /> Hidden <br />
                         @error('status') 

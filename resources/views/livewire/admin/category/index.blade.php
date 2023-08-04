@@ -42,6 +42,7 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
+                                <th scope="col">Image</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Status</th>
                                 <th scope="col" colspan='2'><center>Action</center></th>
@@ -51,6 +52,7 @@
                             @forelse($categories as $item)
                                 <tr>
                                     <td scope="row">{{ $loop->index +1 }}</td>
+                                    <td><img src="{{ asset("$item->image") }}" style="height: 60px; width: 60px;"></td>
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->status == '1' ? 'Hidden':'visible' }}</td>
                                     <td>

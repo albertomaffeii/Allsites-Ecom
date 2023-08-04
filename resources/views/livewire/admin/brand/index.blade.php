@@ -19,6 +19,7 @@
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Name</th>
+                                <th scope="col">Category</th>
                                 <th scope="col">Slug</th>
                                 <th scope="col">Status</th>
                                 <th scope="col" colspan='2'><center>Action</center></th>
@@ -29,6 +30,14 @@
                                 <tr>
                                     <td scope="row">{{ $loop->index +1 }}</td>
                                     <td>{{ $item->name }}</td>
+                                    <td>
+                                        @if($item->category)
+                                            {{ $item->category->name }}                                        
+                                        @else
+                                            No Category
+                                        @endif
+
+                                    </td>
                                     <td>{{ $item->slug }}</td>
                                     <td>{{ $item->status == '1' ? 'Hidden':'visible' }}</td>
                                     <td>
