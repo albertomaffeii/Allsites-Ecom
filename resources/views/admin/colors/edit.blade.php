@@ -24,7 +24,7 @@
                             @enderror
                         </div>
                         <div class="col-md-6 mb-4">
-                            <label for="code">Color Code</label><br /><br />
+                            <label for="code">Color Code</label>
                             <input type="text" class="form-control" name="code" max="10" value="{{ $color->code }}" />
                             @error('code') 
                                 <small class="text-danger">{{ $message }}</small>

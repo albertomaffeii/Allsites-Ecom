@@ -23,6 +23,10 @@
     <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- CSS Alertify JS-->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
    
 
     @livewireStyles
@@ -40,6 +44,17 @@
         <!-- Scripts -->
         <script src="{{ asset('assets/js/jquery-3.7.0.min.js')}}"></script>
         <script src="{{ asset('assets/js/bootstrap.bundle.min.js')}}"></script>
+        
+        <!-- alertifyjs -->
+        <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+        <script>
+
+            window.addEventListener('message', event => {
+                alertify.set('notifier','position', 'top-right');
+                alertify.notify(event.detail.text, event.detail.type, 2);
+            })
+
+        </script>
 
         @livewireScripts
 </body>

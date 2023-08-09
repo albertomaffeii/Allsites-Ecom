@@ -2,6 +2,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Frontend\WishlistController;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\CategoryController;
@@ -19,12 +20,17 @@ Route::controller(FrontendController::class)->group(function () {
     Route::get('/', 'index')->name('welcome');
     Route::get('/collections', 'categories')->name('collections');
     Route::get('/collections/{category_slug}', 'products');
-    Route::get('/new-arrivals', 'index')->name('new-arrivals');
+    Route::get('/collections/{category_slug}/{product_slug}', 'productView');
 });
+
+Route::group(['prefix' => 'frontend'], function () {
+    Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist')->middleware('auth');
+});
+
 
 Auth::routes();
 
-Route::post('/home', [HomeController::class, 'index']);
+Route::get('/home', [HomeController::class, 'index']);
 
 Route::prefix('admin')->middleware('auth', 'isAdmin')->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
