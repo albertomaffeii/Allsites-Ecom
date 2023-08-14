@@ -7,6 +7,7 @@
  - [Products Stylesheet]
  - [Products View Stylesheet]
  - [Cart or Wishlist Stylesheet]
+ - [Checkout Stylesheet]
 
 --------------------------------------------------------------------
  [Slider Stylesheet]
@@ -304,6 +305,15 @@
    overflow: hidden;
    cursor: pointer;
 }
+.shopping-cart .cart-item .product-name-card{
+   font-size: 14px;
+   font-weight: 600;
+   width: 100%;
+   white-space: normal;
+   text-overflow: ellipsis;
+   overflow: hidden;
+   cursor: pointer;
+}
 .shopping-cart .cart-item .price{
    font-size: 16px;
    font-weight: 600;
@@ -326,4 +336,24 @@
    width: 40%;
    outline: none;
    text-align: center;
+}
+
+
+/*------------------------------------------------------------------
+ [Checkout Stylesheet]
+-------------------------------------------------------------------*/
+.checkout .form-control{
+   border-radius: 0px !important;
+}
+.checkout .form-control:focus{
+   border: 1px solid #000 !important;
+   box-shadow: none !important;
+}
+.checkout .nav-link{
+   border: 1px solid #000;
+   border-radius: 0px;
+   margin-bottom: 8px;
+}
+.checkout .tab-content{
+   padding-right: 10px;
 }

@@ -3,6 +3,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Frontend\WishlistController;
+use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\CategoryController;
@@ -21,10 +23,13 @@ Route::controller(FrontendController::class)->group(function () {
     Route::get('/collections', 'categories')->name('collections');
     Route::get('/collections/{category_slug}', 'products');
     Route::get('/collections/{category_slug}/{product_slug}', 'productView');
+    Route::get('/thank-you', 'thankyou');
 });
 
 Route::group(['prefix' => 'frontend'], function () {
     Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist')->middleware('auth');
+    Route::get('/cart', [CartController::class, 'index'])->name('cart')->middleware('auth');
+    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout')->middleware('auth');
 });
 
 
