@@ -51,7 +51,7 @@
 
             window.addEventListener('message', event => {
                 alertify.set('notifier','position', 'top-right');
-                alertify.notify(event.detail.text, event.detail.type, 2);
+                alertify.notify(event.detail.text, event.detail.type, 5);
             })
 
         </script>
