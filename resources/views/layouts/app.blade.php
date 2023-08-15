@@ -41,21 +41,25 @@
         </main>
     </div>
 
-        <!-- Scripts -->
-        <script src="{{ asset('assets/js/jquery-3.7.0.min.js')}}"></script>
-        <script src="{{ asset('assets/js/bootstrap.bundle.min.js')}}"></script>
-        
-        <!-- alertifyjs -->
-        <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
-        <script>
+    <!-- Scripts -->
+    <script src="{{ asset('assets/js/jquery-3.7.0.min.js')}}"></script>
+    <script src="{{ asset('assets/js/bootstrap.bundle.min.js')}}"></script>
+    
+    <!-- alertifyjs -->
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <script>
 
-            window.addEventListener('message', event => {
+        window.addEventListener('message', event => {
+            if (event.detail) {
                 alertify.set('notifier','position', 'top-right');
                 alertify.notify(event.detail.text, event.detail.type, 5);
-            })
+            }
+        })
 
-        </script>
+    </script>
 
-        @livewireScripts
+    @livewireScripts
+    @stack('scripts')
+    
 </body>
 </html>
