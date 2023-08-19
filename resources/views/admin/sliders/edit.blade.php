@@ -7,7 +7,7 @@
         <div class="card">
             <div class="card-header">
                 <h4>Edit Slider
-                    <a href="{{ route('sliders') }}" class="btn btn-primary text-white float-end">BACK</a>
+                    <a href="{{ route('sliders') }}" class="btn btn-primary btn-sm text-white float-end">BACK</a>
                 </h4>
             </div>
             <div class="card-body">
@@ -18,34 +18,34 @@
                     <div class=" mb-4">
                         <label for="title">Slide Title</label>
                         <input type="text" class="form-control" name="title" value="{{ $slider->title }}" max="255" />
-                        @error('title') 
+                        @error('title')
                             <small class="text-danger">{{ $message }}</small>
                         @enderror
                     </div>
                     <div class="mb-4">
                         <label for="description">Description</label>
                         <textarea name="description" rows="3" class="form-control">{{ $slider->description }}</textarea>
-                        @error('description') 
+                        @error('description')
                             <small class="text-danger">{{ $message }}</small>
                         @enderror
-                    </div> 
+                    </div>
                     <div class="row">
                         <div class="col-md-6 mb-4">
-                            <label for="image">Slide Image</label>                            
+                            <label for="image">Slide Image</label>
                             <small>Recommended image size: 1200 x 400</small>
                             <input type="file" class="form-control" name="image" />
                             <img src="{{ asset("$slider->image") }}" alt="Slider" style="height: 150px" class="bordered">
-                            @error('image') 
+                            @error('image')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
                         <div class="col-md-6 mb-4">
                             <label for="status">Status</label><br /><br />
-                            <input type="radio" name="status" value="0" {{ $slider->status == '0' ? 'checked':'' }} /> Show    
+                            <input type="radio" name="status" value="0" {{ $slider->status == '0' ? 'checked':'' }} /> Show
                             <input type="radio" name="status" value="1" {{ $slider->status == '1' ? 'checked':'' }} /> Hidden
                         </div>
                         <div class="col-md-6 mb-3 float-end">
-                            <button type="submit" class="btn btn-primary text-white">Save</button>                   
+                            <button type="submit" class="btn btn-primary text-white">Save</button>
                         </div>
                     </div>
                 </form>

@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Frontend\WishlistController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\CheckoutController;
+use App\Http\Controllers\Frontend\OrderController;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\CategoryController;
@@ -12,11 +13,6 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Middleware\AdminMiddleware;
-
-//Route::get('/', function () {
-//    return view('welcome');
-//});
-
 
 Route::controller(FrontendController::class)->group(function () {
     Route::get('/', 'index')->name('welcome');
@@ -32,13 +28,25 @@ Route::group(['prefix' => 'frontend'], function () {
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout')->middleware('auth');
 });
 
+Route::get('orders', [OrderController::class, 'index'])->name('orders')->middleware('auth');
+Route::get('orders/{orderId}', [OrderController::class, 'show'])->middleware('auth');
+
 
 Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index']);
 
 Route::prefix('admin')->middleware('auth', 'isAdmin')->group(function () {
+
+    //Dashboard Route
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Admin Orders Routes
+    Route::controller(App\Http\Controllers\Admin\OrderController::class)->group(function () {
+        Route::get('/orders', 'index')->name('orders.index');
+        Route::get('/orders/{orderId}', 'show');
+        Route::put('/orders/{orderId}', 'updateOrderStatus');
+    });
 
     // Category Routes
     Route::get('/category', [CategoryController::class, 'index'])->name('category');
@@ -71,16 +79,16 @@ Route::prefix('admin')->middleware('auth', 'isAdmin')->group(function () {
         Route::post('/colors/create', 'store')->name('colors.store');
         Route::get('/colors/{color}/edit', 'edit')->name('colors.edit');
         Route::put('/colors/{color_id}', 'update')->name('colors.update');
-        Route::get('/colors/{color_id}/delete','destroy')->name('colors.delete');        
+        Route::get('/colors/{color_id}/delete','destroy')->name('colors.delete');
     });
 
     //sliders Routes
     Route::controller(SliderController::class)->group(function () {
         Route::get('/sliders', 'index')->name('sliders');
         Route::get('/sliders/create', 'create')->name('sliders.create');
-        Route::post('/sliders/create', 'store')->name('sliders.store');    
+        Route::post('/sliders/create', 'store')->name('sliders.store');
         Route::get('/sliders/{slider}/edit', 'edit')->name('sliders.edit');
         Route::put('/sliders/{slider}', 'update')->name('sliders.update');
-        Route::get('/sliders/{slider}/delete','destroy')->name('sliders.delete');        
+        Route::get('/sliders/{slider}/delete','destroy')->name('sliders.delete');
     });
 });

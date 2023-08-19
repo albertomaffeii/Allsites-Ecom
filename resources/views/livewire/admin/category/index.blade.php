@@ -52,7 +52,7 @@
                             @forelse($categories as $item)
                                 <tr>
                                     <td scope="row">{{ $loop->index +1 }}</td>
-                                    <td><img src="{{ asset("$item->image") }}" style="height: 60px; width: 60px;"></td>
+                                    <td><img src="{{ asset("$item->image") }}"></td>
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->status == '1' ? 'Hidden':'visible' }}</td>
                                     <td>
@@ -93,7 +93,7 @@
         $('#deleteModal').modal('hide');
 
     })
-    
+
 </script>
 
 

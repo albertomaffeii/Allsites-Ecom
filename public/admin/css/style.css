@@ -20,7 +20,7 @@
     + Color Functions Mixins
     + Badge Mixins
     + Blockquote Mixins
-    
+
   * Core Styles
     + Reset Styles
     + Fonts
@@ -43,7 +43,7 @@
     + Lists
     + Tables
   * Plugin overrides
-    + Data-tables  
+    + Data-tables
   * Landing screens
     + Auth
   * Layout
@@ -8965,7 +8965,9 @@ button,
 [type="reset"],
 [type="submit"] {
   -webkit-appearance: button;
+  appearance: button;
 }
+
 
 button:not(:disabled),
 [type="button"]:not(:disabled),
@@ -9026,6 +9028,7 @@ legend + * {
 [type="search"] {
   outline-offset: -2px;
   -webkit-appearance: textfield;
+  appearance: textfield;
 }
 
 /* rtl:raw:
@@ -10857,7 +10860,6 @@ textarea.form-control-lg {
   background-size: contain;
   border: 1px solid rgba(0, 0, 0, 0.25);
   appearance: none;
-  color-adjust: exact;
 }
 
 .form-check-input[type="checkbox"] {
@@ -22135,9 +22137,9 @@ dl li {
 }
 
 .table td img {
-  width: 36px;
-  height: 36px;
-  border-radius: 100%;
+    height: 75px;
+    /*width: 36px;
+    border-radius: 100%; Faz com que as imagens nas tables fiquem dentro de um circle*/
 }
 
 .table td .badge {

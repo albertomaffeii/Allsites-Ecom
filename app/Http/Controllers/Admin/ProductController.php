@@ -16,7 +16,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\File;
 use Illuminate\Database\QueryException;
-use App\Http\Requests\CategoryFormRequest; 
+use App\Http\Requests\CategoryFormRequest;
 
 class ProductController extends Controller
 {
@@ -35,10 +35,10 @@ class ProductController extends Controller
         $colors = Color::where('status','0')->get();
 
         return view('admin.products.create', compact('categories', 'brands', 'colors'));
-    }    
-    
+    }
+
     public function store(ProductFormRequest $request) {
-        
+
         $validatedData = $request->validated();
 
         $category = Category::findOrFail($validatedData['category_id']);
@@ -90,11 +90,11 @@ class ProductController extends Controller
 
         return redirect()->route('products')->with('message','Product Added Succesfully');
     }
-    
+
     public function edit(int $product_id)
     {
         $categories = Category::all();
-        $brands = Brand::all();        
+        $brands = Brand::all();
         $product = Product::findOrFail($product_id);
         $product_color = $product->productColors->pluck('color_id')->toArray();
         $colors = Color::whereNotIn('id', $product_color)->get();
@@ -130,13 +130,13 @@ class ProductController extends Controller
             if($request->hasFile('image')){
                 $uploadPath = 'uploads/products';
                 $i = 1;
-    
+
                 foreach ($request->file('image') as $imageFile) {
                     $extention = $imageFile->getClientOriginalExtension();
                     $filename = time() . $i++ . '.' . $extention;
                     $imageFile->move($uploadPath,$filename);
                     $finalImagePathName = $uploadPath . '/' . $filename;
-    
+
                     $product->productImages()->create([
                         'product_id' => $product->id,
                         'image' => $finalImagePathName,
@@ -153,9 +153,9 @@ class ProductController extends Controller
                     ]);
                 }
             }
-    
+
             return redirect('/admin/products')->with('message','Product Updated Succesfully');
-                
+
         } else {
             return redirect('/admin/products')->with('message','No Such Product Found');
         }
@@ -175,7 +175,7 @@ class ProductController extends Controller
 
     }
 
-    public function destroy(int $product_id){
+    /*public function destroy(int $product_id){
 
         $product = Product::findOrFail($product_id);
         if ($product->productImage) {
@@ -187,13 +187,28 @@ class ProductController extends Controller
         $product->delete();
         return redirect()->route('products')->with('message', 'Product deleted successfully!');
 
+    }*/
+    public function destroy(int $product_id) {
+        $product = Product::findOrFail($product_id);
+
+        if ($product->productImages->isNotEmpty()) {
+            foreach ($product->productImages as $productImage) {
+                if (File::exists($productImage->image)) {
+                    File::delete($productImage->image);
+                }
+                $productImage->delete(); // Certifique-se de excluir as imagens associadas ao produto
+            }
+        }
+
+        $product->delete();
+        return redirect()->route('products')->with('message', 'Product deleted successfully!');
     }
 
-    public function updateProdColorQty(Request $request, $prod_color_id) 
+    public function updateProdColorQty(Request $request, $prod_color_id)
     {
         $productColorData = Product::findOrFail($request->product_id)
                 ->productColors()->where('id', $prod_color_id)->first();
-        
+
         $productColorData->update([
             'quantity' => $request->qty
         ]);
@@ -206,7 +221,7 @@ class ProductController extends Controller
         $prodColor = ProductColor::findOrFail($prod_color_id);
         $prodColor ->delete();
 
-        return response()->json(['message'=>'Product color deleted']);        
+        return response()->json(['message'=>'Product color deleted']);
     }
 
 
