@@ -10,7 +10,7 @@
                 {{ session('message') }}
             </div>
         @endif
-        
+
         <div class="card">
             <div class="card-header">
                 <h4>Sliders List
@@ -36,7 +36,7 @@
                                     <td>{!! $item->title !!}</td>
                                     <td>{!! $item->description !!}</td>
                                     <td>
-                                        <img src="{{ asset("$item->image") }}" alt="Slider" style="width: 70px; height: 70px" class="bordered">
+                                        <img src="{{ asset("$item->image") }}" alt="Slider" class="bordered">
                                     </td>
                                     <td>{{ $item->status == '1' ? 'Hidden':'visible' }}</td>
                                     <td>
@@ -60,7 +60,7 @@
                             @endforelse
                         </tbody>
                     </table>
-                    <div>                        
+                    <div>
                 </div>
             </div>
         </div>

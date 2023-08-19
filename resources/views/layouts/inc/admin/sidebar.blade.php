@@ -8,11 +8,11 @@
               <i class="mdi mdi-home menu-icon"></i>
               <span class="menu-title">Dashboard</span>
             </a>
-          </li>          
+          </li>
           <li class="nav-item">
-            <a class="nav-link" href="pages/forms/basic_elements.html">
-              <i class="mdi mdi-view-headline menu-icon"></i>
-              <span class="menu-title">Sales
+            <a class="nav-link" href="{{ route('orders.index') }}">
+              <i class="mdi mdi-sale menu-icon"></i>
+              <span class="menu-title">Orders</span>
             </a>
           </li>
           <li class="nav-item">
