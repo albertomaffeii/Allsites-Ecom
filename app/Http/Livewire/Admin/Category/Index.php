@@ -22,25 +22,24 @@ class Index extends Component
     public function destroyCategory() {
 
         $category = Category::find($this->category_id);
-    
+
         if ($category) {
-            $path = 'uploads/category/' . $category->image;
-            if (File::exists($path) && $category->image != 'no-image.png') {
-                File::delete($path);
+            if (File::exists($category->image) && $category->image != 'uploads/category/no-image.png') {
+                File::delete($category->image);
             }
             $category->delete();
-    
+
             session()->flash('message', 'Category deleted.');
-    
+
             $this->dispatchBrowserEvent('close-modal');
         } else {
-            
+
             session()->flash('message', 'This category has been previously deleted.');
-    
+
             $this->dispatchBrowserEvent('close-modal');
 
         }
-    }    
+    }
 
     public function render()
     {

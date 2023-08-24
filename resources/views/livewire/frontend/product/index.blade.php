@@ -1,7 +1,7 @@
 <div>
     <div class="row">
         <div class="col-md-3">
-            @if($category->brands)                
+            @if($category->brands)
                 <div class="card">
                     <div class="card-header"><h4>Brands</h4></div>
                     <div class="card-body">
@@ -28,7 +28,7 @@
 
         </div>
         <div class="col-md-9">
-   
+
             <div class="row">
                 @forelse ($products as $productItem)
                     <div class="col-md-4">
@@ -47,7 +47,7 @@
                             </div>
                             <div class="product-card-body">
                                 <p class="product-brand">{{ $productItem->brand }}</p>
-                                <h5 class="product-name"> 
+                                <h5 class="product-name">
                                     <a href="{{ url('/collections/'.$productItem->category->slug.'/'.$productItem->slug) }}">{{ $productItem->name }}</a>
                                 </h5>
                                 <div>
@@ -64,7 +64,9 @@
                     </div>
                 @empty
                     <div class="col-md-12">
-                        <h5>No products available for {{ $category->name }}</h5>
+                        <div class="p-2">
+                            <h5>No products available for {{ $category->name }}</h5>
+                        </div>
                     </div>
                 @endforelse
             </div>

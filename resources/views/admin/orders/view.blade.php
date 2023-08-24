@@ -21,7 +21,9 @@
 
                   <h4 class="text-primary">
                      <i class="fa fa-shopping-cart text-dark"></i> Order Details
-                     <a href="{{ url('admin/orders') }}" class="btn btn-primary btn-sm text-white float-end">BACK</a>
+                     <a href="{{ url('admin/orders') }}" class="btn btn-primary btn-sm text-white float-end mx-1">BACK</a>
+                     <a href="{{ url('admin/invoice/' . $order->id . '/generate') }}" class="btn btn-secondary btn-sm text-white float-end mx-1">Download Invoice</a>
+                     <a href="{{ url('admin/invoice/' . $order->id) }}" target="_blank" class="btn btn-warning btn-sm text-white float-end mx-1">View Invoice</a>
                   </h4>
                   <hr>
 
@@ -52,8 +54,8 @@
                   <h5>Order Items</h5>
                   <hr>
                   <div class="table-responsive">
-                     <table class="table table-bordered table-striped">
-                        <thead>
+                     <table class="table table-bordered table-hover table-striped table-sm">
+                        <thead class="table-light">
                            <tr>
                               <th  scope="col">Product ID</th>
                               <th  scope="col">Image</th>
@@ -93,27 +95,36 @@
                                     @endphp
                                 </tr>
                             @endforeach
-                            <tr>
-                                <td colspan="5">Subtotal:</td>
-                                <td width="10%" class="fw-bold">${{ $subtotalPrice }}</td>
-                            </tr>
-                            <tr>
-                                <td colspan="5">Shipping (Delivery Cost):</td>
-                                <td width="10%">$0.00{{-- $order->deliveryCost --}}</td>
-                            </tr>
-                            <tr>
-                                <td colspan="5">Paypal Fees:</td>
-                                <td width="10%">$0.00{{-- $order->deliveryCost --}}</td>
-                            </tr>
-                            <tr>
-                                @php
-                                    $totalPrice = $subtotalPrice + 0 + 0;
-                                @endphp
-                                <td colspan="5">Total Amount:</td>
-                                <td width="10%" class="fw-bold">${{  $totalPrice }}</td>
-                            </tr>
-                        </tbody>
-                     </table>
+                        </table>
+                        <br />
+                        <table class="table table-bordered table-striped table-sm">
+                            <thead class="table-light">
+                                <tr>
+                                    <th colspan="2">Payment details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td width="85%">Subtotal:</td>
+                                    <td width="15%" class="fw-bold">${{ $subtotalPrice }}</td>
+                                </tr>
+                                <tr>
+                                    <td width="85%">Shipping (Delivery Cost):</td>
+                                    <td width="15%">$0.00{{-- $order->deliveryCost --}}</td>
+                                </tr>
+                                <tr>
+                                    <td width="85%">Paypal Fees:</td>
+                                    <td width="15%">$0.00{{-- $order->deliveryCost --}}</td>
+                                </tr>
+                                <tr>
+                                    @php
+                                        $totalPrice = $subtotalPrice + 0 + 0;
+                                    @endphp
+                                    <td width="85%" class="total-heading">Total Amount:</td>
+                                    <td width="15%" class="total-heading">${{  $totalPrice }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
                   </div>
 
             </div>
@@ -139,6 +150,7 @@
                             <select name="order_status" class="form-select" style="height: 38px;">
                                 <option value="">All Status</option>
                                 <option value="order received" {{ Request::get('status') == 'order received' ? 'selected':'' }}>Order Received</option>
+                                <option value="payment confirmed" {{ Request::get('status') == 'payment confirmed' ? 'selected':'' }}>Payment Confirmed</option>
                                 <option value="completed" {{ Request::get('status') == 'completed' ? 'selected':'' }}>Completed</option>
                                 <option value="pending" {{ Request::get('status') == 'pending' ? 'selected':'' }}>Pending</option>
                                 <option value="cancelled" {{ Request::get('status') == 'cancelled' ? 'selected':'' }}>Cancelled</option>

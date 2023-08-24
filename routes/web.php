@@ -1,25 +1,34 @@
 <?php
+use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Frontend\WishlistController;
-use App\Http\Controllers\Frontend\CartController;
-use App\Http\Controllers\Frontend\CheckoutController;
-use App\Http\Controllers\Frontend\OrderController;
-use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\SliderController;
-use App\Http\Middleware\AdminMiddleware;
+use App\Http\Controllers\Frontend\WishlistController;
+use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Frontend\CheckoutController;
+use App\Http\Controllers\Frontend\OrderController;
+use App\Http\Controllers\Frontend\FrontendController;
+
+Auth::routes();
 
 Route::controller(FrontendController::class)->group(function () {
+
     Route::get('/', 'index')->name('welcome');
+    
     Route::get('/collections', 'categories')->name('collections');
     Route::get('/collections/{category_slug}', 'products');
     Route::get('/collections/{category_slug}/{product_slug}', 'productView');
+
+    Route::get('/new-arrivals', 'newArrival')->name('newarrivals');
+    Route::get('/featured-products', 'featuredProducts')->name('featured');
+
     Route::get('/thank-you', 'thankyou');
+
 });
 
 Route::group(['prefix' => 'frontend'], function () {
@@ -31,9 +40,6 @@ Route::group(['prefix' => 'frontend'], function () {
 Route::get('orders', [OrderController::class, 'index'])->name('orders')->middleware('auth');
 Route::get('orders/{orderId}', [OrderController::class, 'show'])->middleware('auth');
 
-
-Auth::routes();
-
 Route::get('/home', [HomeController::class, 'index']);
 
 Route::prefix('admin')->middleware('auth', 'isAdmin')->group(function () {
@@ -41,11 +47,14 @@ Route::prefix('admin')->middleware('auth', 'isAdmin')->group(function () {
     //Dashboard Route
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    // Admin Orders Routes
+    // Admin Orders and Invoices Routes
     Route::controller(App\Http\Controllers\Admin\OrderController::class)->group(function () {
         Route::get('/orders', 'index')->name('orders.index');
         Route::get('/orders/{orderId}', 'show');
         Route::put('/orders/{orderId}', 'updateOrderStatus');
+
+        Route::get('/invoice/{orderId}', 'viewInvoice');
+        Route::get('/invoice/{orderId}/generate', 'generateInvoice');
     });
 
     // Category Routes

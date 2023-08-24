@@ -54,11 +54,19 @@ class ProductController extends Controller
             'original_price' => $validatedData['original_price'],
             'selling_price' => $validatedData['selling_price'],
             'quantity' => $validatedData['quantity'],
+            'quantity_unit' => $validatedData['quantity_unit'],
             'trending' => $validatedData['trending'],
+            'featured' => $validatedData['featured'],
             'status' => $validatedData['status'],
             'meta_title' => $validatedData['meta_title'],
             'meta_keyword' => $validatedData['meta_keyword'],
             'meta_description' => $validatedData['meta_description'],
+            'gross_weight' => $validatedData['gross_weight'],
+            'net_weight' => $validatedData['net_weight'],
+            'packaging_type' => $validatedData['packaging_type'],
+            'height' => $validatedData['height'],
+            'width_or_diameter' => $validatedData['width_or_diameter'],
+            'length' => $validatedData['length'],
         ]);
 
         if($request->hasFile('image')){
@@ -91,6 +99,7 @@ class ProductController extends Controller
         return redirect()->route('products')->with('message','Product Added Succesfully');
     }
 
+
     public function edit(int $product_id)
     {
         $categories = Category::all();
@@ -109,7 +118,6 @@ class ProductController extends Controller
         $product = Category::findOrFail($validatedData['category_id'])
                         ->products()->where('id',$product_id)->first();
         if ($product){
-
             $product->update([
                 'category_id' => $validatedData['category_id'],
                 'name' => $validatedData['name'],
@@ -120,11 +128,20 @@ class ProductController extends Controller
                 'original_price' => $validatedData['original_price'],
                 'selling_price' => $validatedData['selling_price'],
                 'quantity' => $validatedData['quantity'],
+                'quantity_unit' => $validatedData['quantity_unit'],
                 'trending' => $validatedData['trending'],
                 'status' => $validatedData['status'],
                 'meta_title' => $validatedData['meta_title'],
                 'meta_keyword' => $validatedData['meta_keyword'],
                 'meta_description' => $validatedData['meta_description'],
+                'featured' => $validatedData['featured'],
+                'sku' => $validatedData['sku'],
+                'gross_weight' => $validatedData['gross_weight'],
+                'net_weight' => $validatedData['net_weight'],
+                'packaging_type' => $validatedData['packaging_type'],
+                'height' => $validatedData['height'],
+                'width_or_diameter' => $validatedData['width_or_diameter'],
+                'length' => $validatedData['length'],
             ]);
 
             if($request->hasFile('image')){
@@ -175,19 +192,6 @@ class ProductController extends Controller
 
     }
 
-    /*public function destroy(int $product_id){
-
-        $product = Product::findOrFail($product_id);
-        if ($product->productImage) {
-            if (File::exists($productImage->image)) {
-                File::delete($productImage->image);
-            }
-        }
-
-        $product->delete();
-        return redirect()->route('products')->with('message', 'Product deleted successfully!');
-
-    }*/
     public function destroy(int $product_id) {
         $product = Product::findOrFail($product_id);
 
