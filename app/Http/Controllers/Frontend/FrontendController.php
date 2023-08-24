@@ -6,13 +6,27 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Slider;
 use App\Models\Category;
+use App\Models\Product;
 
 class FrontendController extends Controller
 {
     public function index()
     {
         $sliders = Slider::where('status', '0')->get();
-        return view('frontend.index', compact('sliders'));
+        $trendingProducts = Product::where('trending','1')->latest()->take(15)->get();
+        return view('frontend.index', compact('sliders', 'trendingProducts'));
+    }
+
+    public function newArrival()
+    {
+        $newArrivalsProdcts = Product::latest()->take(16)->get();
+        return view('frontend.pages.new-arrival', compact('newArrivalsProdcts'));
+    }
+
+    public function featuredProducts()
+    {
+        $featuredProducts = Product::where('featured','1')->latest()->get();
+        return view('frontend.pages.featured-products', compact('featuredProducts'));
     }
 
     public function categories()
@@ -21,7 +35,7 @@ class FrontendController extends Controller
         return view('frontend.collections.category.index', compact('categories'));
     }
 
-    public function products($category_slug) 
+    public function products($category_slug)
     {
         $category = Category::where('slug', $category_slug)->first();
 

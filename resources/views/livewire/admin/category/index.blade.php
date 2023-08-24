@@ -45,7 +45,7 @@
                                 <th scope="col">Image</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Status</th>
-                                <th scope="col" colspan='2'><center>Action</center></th>
+                                <th scope="col" colspan='2' class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -55,15 +55,10 @@
                                     <td><img src="{{ asset("$item->image") }}"></td>
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->status == '1' ? 'Hidden':'visible' }}</td>
-                                    <td>
-                                        <center>
-                                            <a href="{{ url('admin/category/' . $item->id . '/edit') }}" class="btn btn-success btn-sm text-white">Edit</a>
-                                        </center>
-                                    </td>
-                                    <td>
-                                        <center>
-                                            <a href="#" wire:click="deleteCategory({{ $item->id }})" data-bs-toggle="modal" data-bs-target="#deleteModal" class="btn btn-danger btn-sm text-white">Delete</a>
-                                        </center>
+                                    <td class="text-center">
+                                        <a href="{{ url('admin/category/' . $item->id . '/edit') }}" class="btn btn-success btn-sm text-white">Edit</a></td>
+                                    <td class="text-center">
+                                        <a href="#" wire:click="deleteCategory({{ $item->id }})" data-bs-toggle="modal" data-bs-target="#deleteModal" class="btn btn-danger btn-sm text-white">Delete</a>
                                     </td>
                                 </tr>
                                 @empty
@@ -91,6 +86,12 @@
     window.addEventListener(close-modal, event => {
 
         $('#deleteModal').modal('hide');
+
+    })
+
+</script>
+
+odal('hide');
 
     })
 

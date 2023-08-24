@@ -53,6 +53,12 @@
    letter-spacing: 0.5px;
 }
 
+.underline {
+    text-decoration: underline;
+    color: red;
+}
+
+
 
 /*------------------------------------------------------------------
  [Navbar Stylesheet]

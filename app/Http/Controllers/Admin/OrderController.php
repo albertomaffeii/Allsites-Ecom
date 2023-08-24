@@ -6,14 +6,12 @@ use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class OrderController extends Controller
 {
     public function index(Request $request)
     {
-        //$todayDate = Carbon::today()->toDateString();
-        //$orders = Order::whereDate('created_at', $todayDate)->orderBy('id', 'DESC')->paginate(10);
-
         $todayDate = Carbon::now()->format('Y-m-d');
         $orders = Order::when($request->date != null, function ($q) use ($request) {
 
@@ -54,13 +52,22 @@ class OrderController extends Controller
         }
     }
 
-    public function edit(Order $order)
+    public function viewInvoice(int $orderId)
     {
-        //
+        $order = Order::findOrFail($orderId);
+        return view('admin.invoice.generate-invoice', compact('order'));
     }
 
-    public function destroy(Order $order)
+    public function generateInvoice(int $orderId)
     {
-        //
+        $order = Order::findOrFail($orderId);
+        $data = ['order' => $order];
+
+        $pdf = Pdf::loadView('admin.invoice.generate-invoice', $data);
+
+        $todayDate = Carbon::now()->format('Y-m-d');
+        $invoiceNumber = sprintf('%06d', $order->id);
+
+        return $pdf->download('Invoice#-' . $invoiceNumber . '-' . $todayDate . '.pdf');
     }
 }

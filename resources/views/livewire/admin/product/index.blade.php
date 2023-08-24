@@ -6,7 +6,7 @@
                 {{ session('message') }}
             </div>
         @endif
-        
+
         <div class="card">
             <div class="card-header">
                 <h4>Products
@@ -41,15 +41,11 @@
                                     <td>{{ $item->selling_price }}</td>
                                     <td>{{ $item->quantity }}</td>
                                     <td>{{ $item->status == '1' ? 'Hidden':'visible' }}</td>
-                                    <td>
-                                        <center>
-                                            <a href="{{ url('admin/products/' . $item->id . '/edit') }}" class="btn btn-success btn-sm text-white">Edit</a>
-                                        </center>
+                                    <td class="text-align: center">
+                                        <a href="{{ url('admin/products/' . $item->id . '/edit') }}" class="btn btn-success btn-sm text-white">Edit</a>
                                     </td>
-                                    <td>
-                                        <center>
-                                            <a href="{{ url('admin/products/' . $item->id . '/delete') }}" onclick="return confirm('Are you sure, you want to delete this product?')" class="btn btn-danger btn-sm text-white">Delete</a>
-                                        </center>
+                                    <td class="text-align: center">
+                                        <a href="{{ url('admin/products/' . $item->id . '/delete') }}" onclick="return confirm('Are you sure, you want to delete this product?')" class="btn btn-danger btn-sm text-white">Delete</a>
                                     </td>
                                 </tr>
                                 @empty
@@ -78,7 +74,7 @@
         $('#deleteModal').modal('hide');
 
     })
-    
+
 </script>
 
 
