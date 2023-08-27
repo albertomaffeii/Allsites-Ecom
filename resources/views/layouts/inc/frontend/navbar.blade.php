@@ -3,7 +3,11 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-2 my-auto d-none d-sm-none d-md-block d-lg-block">
-                        <h5 class="brand-name">Allsites Ecom</h5>
+                        @if($appSetting->logotipo)
+                            <img src="{{ asset($appSetting->logotipo) }}" style="height: 60px;">
+                        @else
+                            <h5 class="brand-name">{{ $appSetting->website_name }}</h5>
+                        @endif
                     </div>
                     <div class="col-md-5 my-auto">
                         <form role="search">

@@ -1,19 +1,19 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Allsites Ecom') }}</title>    
-    
+    <title> @yield('title') | {{ config('app.name', 'Allsites Ecom') }}</title>
+
     <!-- plugins:css -->
     <link rel="stylesheet" href="{{ asset('admin/vendors/mdi/css/materialdesignicons.min.css') }}">
     <link rel="stylesheet" href="{{ asset('admin/vendors/base/vendor.bundle.base.css') }}">
-    
+
     <!-- endinject -->
     <!-- plugin css for this page -->
     <link rel="stylesheet" href="{{ asset('admin/vendors/datatables.net-bs4/dataTables.bootstrap4.css') }}">
@@ -31,20 +31,20 @@
 
 </head>
 <body>
-    
+
     <div class="container-scroller">
 
         @include('layouts.inc.admin.navbar')
 
         <div class="divcontainer-fluid page-boby-wrapper">
-            
+
             @include('layouts.inc.admin.sidebar')
 
             <div class="main-panel">
                 <div class="content-wrapper">
 
                     @yield('content')
-                    
+
                 </div>
             </div>
 
