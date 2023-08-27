@@ -8,6 +8,7 @@
  - [Products View Stylesheet]
  - [Cart or Wishlist Stylesheet]
  - [Checkout Stylesheet]
+ - [Footer Stylesheet]
 
 --------------------------------------------------------------------
  [Slider Stylesheet]
@@ -55,7 +56,10 @@
 
 .underline {
     text-decoration: underline;
-    color: red;
+    height: 2px;
+    width: 120px;
+    background-color:gray;
+    margin: 10px 0px;
 }
 
 
@@ -362,4 +366,52 @@
 }
 .checkout .tab-content{
    padding-right: 10px;
+}
+
+
+/*------------------------------------------------------------------
+ [Footer Stylesheet]
+-------------------------------------------------------------------*/
+.footer-area{
+    padding: 40px 0px;
+    background-color: #2874f0;
+    color: #fff;
+}
+.footer-area a{
+    text-decoration: none;
+}
+.footer-area .footer-heading{
+    font-size: 24px;
+    color: #fff;
+}
+.footer-area .footer-underline{
+    height: 1px;
+    width: 70px;
+    background-color: #ddd;
+    margin: 10px 0px;
+}
+.copyright-area{
+    padding: 14px 0px;
+    background-color: #262626;
+}
+.copyright-area p{
+    margin-bottom: 0px;
+    color: #fff;
+}
+.copyright-area .social-media{
+    text-align: end;
+}
+.copyright-area .social-media a{
+    margin: 0px 10px;
+    color: #fff;
+    width: 20px;
+}
+
+.footer-info .fa {
+    color: #fff;
+    margin-right: 5px;
+}
+
+.footer-info .icon {
+    margin-right: 15px;
 }

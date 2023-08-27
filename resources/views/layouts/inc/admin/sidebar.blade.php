@@ -76,7 +76,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ route('colors') }}">
+            <a class="nav-link" href="{{ route('settings') }}">
               <i class="mdi mdi-settings menu-icon"></i>
               <span class="menu-title">Site Setting</span>
             </a>
