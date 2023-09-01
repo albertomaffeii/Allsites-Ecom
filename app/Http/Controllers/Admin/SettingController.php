@@ -19,28 +19,28 @@ class SettingController extends Controller
 
     public function update(SettingFormRequest $request)
     {
+
         $data = $request->validated();
-        
+
         $settings = Setting::first();
 
         $destination = $settings->logotipo;
         $settings->fill($data);
-        $settings->save();        
+        $settings->save();
         $uploadPath = "uploads/settings/";
-        
+
         if ($request->hasFile('logotipo')) {
-            
-            // Verifique se já existe um arquivo e o exclua
+
             if (File::exists($destination)) {
                 File::delete($destination);
             }
-        
+
             $imageFile = $request->file('logotipo');
             $extention = $imageFile->getClientOriginalExtension();
             $filename = 'logo.' . $extention;
             $imageFile->move($uploadPath, $filename);
             $destination = 'uploads/settings/'.$filename;
-            $settings = Setting::find(1); 
+            $settings = Setting::find(1);
             $settings->logotipo = $destination;
             $settings->save();
         }

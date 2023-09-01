@@ -14,7 +14,26 @@ class FrontendController extends Controller
     {
         $sliders = Slider::where('status', '0')->get();
         $trendingProducts = Product::where('trending','1')->latest()->take(15)->get();
-        return view('frontend.index', compact('sliders', 'trendingProducts'));
+        $newArrivalsProdcts = Product::latest()->take(14)->get();
+        $featuredProducts = Product::where('featured','1')->latest()->take(14)->get();
+        return view('frontend.index', compact('sliders', 'trendingProducts', 'newArrivalsProdcts', 'featuredProducts'));
+    }
+
+    public function searchProducts(Request $request)
+    {
+        $searchTerm = $request->search;
+
+        if ($searchTerm) {
+            $searchProducts = Product::where('name', 'LIKE', '%' . $searchTerm . '%')
+                ->latest()
+                ->paginate(10);
+
+            $totalProducts = $searchProducts->total();
+
+            return view('frontend.pages.search', compact('searchProducts', 'totalProducts'));
+        } else {
+            return redirect()->back()->with('message', 'Empty Search');
+        }
     }
 
     public function newArrival()
@@ -72,4 +91,5 @@ class FrontendController extends Controller
     {
         return view('frontend.thank-you');
     }
+
 }

@@ -12,8 +12,7 @@
             font-family: montserrat, verdana, sans-serif;
         }
         img {
-            width: 250px;
-            height: 83px;
+            height: 60px;
             padding: 1px;
         }
         h1,h2,h3,h4,h5,h6,p,span,label {
@@ -81,8 +80,8 @@
             color: #fff;
         }
         .bg-secondary {
-            background-color: #6c757d; /* Esta é uma cor de exemplo, você pode substituí-la pela cor desejada */
-            color: #fff; /* Cor do texto para torná-lo visível no fundo */
+            background-color: #6c757d;
+            color: #fff;
         }
     </style>
 </head>
@@ -91,20 +90,29 @@
     <table class="order-details">
         <thead>
             <tr>
-                <th width="50%"  class="text-center" colspan="2">
-                    <img src="{{ asset('admin/images/logo.jpeg') }}" alt="logo"/>
-
+                <th width="25%" style="border-right: none;">
+                    <img src="{{ asset($appSetting->logotipo) }}" style="height: 90px;" alt="logo"/>
                 </th>
-                <th width="50%" colspan="2" class="text-end company-data">
-                    <span>Invoice: #{{ sprintf('%06d', $order->id) }}</span> <br>
-                    <span>Date: {{ date('Y / m / d') }}</span> <br>
-                    <span>Zip code: 56.125</span> <br>
-                    <span>Address: Piazza Vittorio, 3453, Centro, Firenze, TO, Italy</span> <br>
+                <th width="25%"  class="company-data" style="border-left: none; border-right: none;">
+                    {{ $appSetting->company_name }}<br />
+                    <span>
+                        {{ $appSetting->address1 }}<br />
+                        {{ $appSetting->address2 }}<br />
+                        Zip code: {{ $appSetting->zip_code }} - {{ $appSetting->country }}<br />
+                        {{ $appSetting->phone1 }} - {{ $appSetting->contact_email }}<br />
+                        {{ $appSetting->website_url }}
+                    </span>
+                </th>
+                <th width="50%" colspan="2" class="text-end company-data" style="border-left: none;">
+                    <span>Invoice#: {{ sprintf('%06d', $order->id) }}</span> <br />
+                    <span>Date: {{ date($appSetting->format_date) }}</span> <br />
+                    <span>{{ $appSetting->tax_code_name1 }} - {{ $appSetting->tax_code_value1 }}</span><br />
+                    <span>{{ $appSetting->tax_code_name2 }} - {{ $appSetting->tax_code_value2 }}</span><br />
                 </th>
             </tr>
             <tr class="bg-blue">
-                <th width="50%" class="no-border text-start bg-blue heading" colspan="2">Order Details</th>
-                <th width="50%" class="no-border text-start bg-blue heading" colspan="2">User Details</th>
+                <th class="no-border text-start bg-blue heading" colspan="2">Order Details</th>
+                <th class="no-border text-start bg-blue heading" colspan="2">User Details</th>
             </tr>
         </thead>
         <tbody>
@@ -124,7 +132,7 @@
             </tr>
             <tr>
                 <td>Ordered Date:</td>
-                <td>{{ $order->created_at->format('Y/m/d \a\t h:m:s') }}</td>
+                <td>{{ $order->created_at->format($appSetting->format_date .' \a\t ' . $appSetting->format_hour) }}</td>
 
                 <td>Phone:</td>
                 <td>{{ $order->phone }}</td>
@@ -150,7 +158,7 @@
     <table>
         <thead>
             <tr>
-                <th class="no-border text-start bg-blue heading" colspan="5">
+                <th class="no-border text-start bg-blue heading" colspan="6">
                     Order Items
                 </th>
             </tr>
@@ -159,6 +167,7 @@
                 <th  scope="col">Product</th>
                 <th  scope="col">Price</th>
                 <th  scope="col" class="text-center">Quant</th>
+                <th  scope="col" class="text-center">Unit</th>
                 <th  scope="col">Total</th></tr>
             </tr>
         </thead>
@@ -178,9 +187,10 @@
                             @endif
                         @endif
                     </td>
-                    <td width="10%">${{ $orderItem->price }}</td>
-                    <td width="10%" class="text-center">{{ $orderItem->quantity }}</td>
-                    <td width="10%" class="fw-bold">${{ $orderItem->quantity * $orderItem->price }}</td>
+                    <td width="10%">{{ $appSetting->currency_type }} {{ $settings->formatNumber($orderItem->price, 2) }}</td>
+                    <td width="10%" class="text-center">{{ $settings->formatNumber($orderItem->quantity, 4) }}</td>
+                    <td width="5%" class="text-center">{{ $orderItem->quantity_unit }}</td>
+                    <td width="10%" class="fw-bold">{{ $appSetting->currency_type }} {{ $settings->formatNumber($orderItem->quantity * $orderItem->price, 2) }}</td>
                     @php
                         $subtotalPrice += $orderItem->quantity * $orderItem->price
                     @endphp
@@ -197,26 +207,28 @@
         <tbody>
             <tr>
                 <td width="85%">Subtotal:</td>
-                <td width="15%" class="fw-bold">${{ $subtotalPrice }}</td>
+                <td width="15%" class="fw-bold">{{ $appSetting->currency_type }} {{ $settings->formatNumber($subtotalPrice, 2) }}</td>
             </tr>
             <tr>
-                <td width="85%">VAT/TAX Included:</td>
-                <td width="15%">$12.76{{-- $order->deliveryCost --}}</td>
+                <td width="85%">{{ $appSetting->tax_code_name3 }} ({{ $settings->formatNumber($appSetting->tax_code_value3, 4) }}%)</td>
+                <td width="15%">{{ $appSetting->currency_type }} {{ $settings->formatNumber(($subtotalPrice * $appSetting->tax_code_value3) / 100, 2) }}</td>
+
+
             </tr>
             <tr>
-                <td width="85%">Shipping (Delivery Cost):</td>
-                <td width="15%">$0.00{{-- $order->deliveryCost --}}</td>
+                <td width="85%">Shipping (Delivery Cost): </td>
+                <td width="15%">{{ $appSetting->currency_type }} {{ $settings->formatNumber($order->deliveryCost, 2) }}</td>
             </tr>
             <tr>
                 <td width="85%">Paypal Fees:</td>
-                <td width="15%">$0.00{{-- $order->deliveryCost --}}</td>
+                <td width="15%">{{ $appSetting->currency_type }} {{ $settings->formatNumber($order->paypal_fees, 2) }}</td>
             </tr>
             <tr>
                 @php
                     $totalPrice = $subtotalPrice + 0 + 0;
                 @endphp
                 <td width="85%" class="total-heading">Total Amount:</td>
-                <td width="15%" class="total-heading">${{-- $totalPrice --}}</td>
+                <td width="15%" class="total-heading">{{ $appSetting->currency_type }} {{ $settings->formatNumber($totalPrice, 2) }}</td>
             </tr>
         </tbody>
     </table>

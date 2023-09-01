@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\SliderController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Frontend\WishlistController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\CheckoutController;
@@ -28,6 +29,8 @@ Route::controller(FrontendController::class)->group(function () {
 
     Route::get('/new-arrivals', 'newArrival')->name('newarrivals');
     Route::get('/featured-products', 'featuredProducts')->name('featured');
+
+    Route::get('/search', 'searchProducts')->name('search');
 
     Route::get('/thank-you', 'thankyou');
 
@@ -71,7 +74,7 @@ Route::prefix('admin')->middleware('auth', 'isAdmin')->group(function () {
     Route::get('/category/{category}/edit', [CategoryController::class, 'edit'])->name('category.edit');
     Route::put('/category/{category}', [CategoryController::class, 'update'])->name('category.update');
 
-    //Products Routes
+    // Products Routes
     Route::controller(ProductController::class)->group(function () {
         Route::get('/products', 'index')->name('products');
         Route::get('/products/create', 'create')->name('products.create');
@@ -88,7 +91,7 @@ Route::prefix('admin')->middleware('auth', 'isAdmin')->group(function () {
     // Brands Route
     Route::get('/brands', App\Http\Livewire\Admin\Brand\Index::class)->name('brands');
 
-    //Colors Routes
+    // Colors Routes
     Route::controller(ColorController::class)->group(function () {
         Route::get('/colors', 'index')->name('colors');
         Route::get('/colors/create', 'create')->name('colors.create');
@@ -98,7 +101,7 @@ Route::prefix('admin')->middleware('auth', 'isAdmin')->group(function () {
         Route::get('/colors/{color_id}/delete','destroy')->name('colors.delete');
     });
 
-    //sliders Routes
+    // sliders Routes
     Route::controller(SliderController::class)->group(function () {
         Route::get('/sliders', 'index')->name('sliders');
         Route::get('/sliders/create', 'create')->name('sliders.create');
@@ -106,5 +109,11 @@ Route::prefix('admin')->middleware('auth', 'isAdmin')->group(function () {
         Route::get('/sliders/{slider}/edit', 'edit')->name('sliders.edit');
         Route::put('/sliders/{slider}', 'update')->name('sliders.update');
         Route::get('/sliders/{slider}/delete','destroy')->name('sliders.delete');
+    });
+
+    // Admin Users Routes
+    Route::controller(UserController::class)->group(function () {
+        //Route::
+
     });
 });
