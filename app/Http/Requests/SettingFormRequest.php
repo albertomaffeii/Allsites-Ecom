@@ -14,7 +14,7 @@ class SettingFormRequest extends FormRequest
     {
         return [
             'website_name' => ['required', 'string', 'max:255'],
-            'website_url' => ['required', 'url'],
+            'website_url' => ['required', 'max:255'],
             'page_title' => ['required', 'string', 'max:255'],
             'meta_keyword' => ['required', 'string', 'max:500'],
             'meta_description' => ['required', 'string', 'max:500'],
@@ -33,9 +33,9 @@ class SettingFormRequest extends FormRequest
             'banner_section' => ['nullable', 'string'],
             'number_images_trending' => ['required', 'integer'],
             'tax_code_name1' => ['required', 'string'],
-            'tax_code_value1' => ['required', 'numeric'],
+            'tax_code_value1' => ['required', 'string'],
             'tax_code_name2' => ['nullable', 'string'],
-            'tax_code_value2' => ['nullable', 'numeric'],
+            'tax_code_value2' => ['nullable', 'string'],
             'tax_code_name3' => ['nullable', 'string'],
             'tax_code_value3' => ['nullable', 'numeric'],
             'facebook' => ['nullable', 'string', 'url'],
@@ -47,6 +47,9 @@ class SettingFormRequest extends FormRequest
             'shipping_mode' => ['nullable', 'string'],
             'payment_mode' => ['nullable', 'string'],
             'currency_type' => ['nullable', 'string'],
+            'format_date' => ['nullable'],
+            'format_hour' => ['nullable'],
+            'format_number' => ['nullable'],
         ];
     }
 }

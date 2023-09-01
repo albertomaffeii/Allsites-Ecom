@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Order;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Carbon;
@@ -33,9 +34,9 @@ class OrderController extends Controller
     {
         $order = Order::where('id', $orderId)->first();
         if ($order) {
-            return view('admin.orders.view', compact('order')); // Alterei 'admin.orders.index' para 'admin.orders.show'
+            return view('admin.orders.view', compact('order'));
         } else {
-            return redirect()->route('admin.orders')->with('message', 'Order not found'); // Usei route() para redirecionar para a rota
+            return redirect()->route('admin.orders')->with('message', 'Order not found');
         }
     }
 
@@ -55,10 +56,23 @@ class OrderController extends Controller
     public function viewInvoice(int $orderId)
     {
         $order = Order::findOrFail($orderId);
-        return view('admin.invoice.generate-invoice', compact('order'));
+        $settings = Setting::first();
+        return view('admin.invoice.generate-invoice', compact('order', 'settings'));
     }
 
     public function generateInvoice(int $orderId)
+{
+    $order = Order::findOrFail($orderId);
+    $settings = Setting::first();
+    $pdf = Pdf::loadView('admin.invoice.generate-invoice', compact('order', 'settings'));
+
+    $todayDate = Carbon::now()->format('Y-m-d');
+    $invoiceNumber = sprintf('%06d', $order->id);
+
+    return $pdf->download('Invoice#-' . $invoiceNumber . '-' . $todayDate . '.pdf');
+}
+
+    public function generateInvoice_OLD(int $orderId)
     {
         $order = Order::findOrFail($orderId);
         $data = ['order' => $order];

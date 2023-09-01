@@ -13,6 +13,9 @@
 --------------------------------------------------------------------
  [Slider Stylesheet]
 -------------------------------------------------------------------*/
+body{
+    background-color:#f3f3f3;
+}
 .carousel-item .custom-carousel-content{
    width: 50%;
    transform: translate(0%, -10%);

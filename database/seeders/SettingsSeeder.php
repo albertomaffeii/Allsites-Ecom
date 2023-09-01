@@ -2,53 +2,55 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-
 use Illuminate\Database\Seeder;
-use App\Models\Setting;
 
 class SettingsSeeder extends Seeder
 {
-    public function run()
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
     {
-        $settings = new Setting();
-        $settings->website_name = 'Website Name';
-        $settings->website_url = 'https://example.com';
-        $settings->page_title = 'Home Page Title';
-        $settings->meta_keyword = 'Site Keywords';
-        $settings->meta_description = 'Site Description';
-        $settings->logotipo = 'uploads/settings/logo.jpeg';
-        $settings->company_name = 'Company Name';
-        $settings->contact_email = 'contact@example.com';
-        $settings->admin_email = 'admin@example.com';
-        $settings->billing_email = 'billing@example.com';
-        $settings->zip_code = '12345-678';
-        $settings->address1 = 'Company Address 1';
-        $settings->address2 = 'Company Address 2';
-        $settings->phone1 = '+1234567890';
-        $settings->phone2 = '+9876543210';
-        $settings->phone3 = '+2468135790';
-        $settings->country = 'Company Country';
-        $settings->banner_section = 'Default Banner Section';
-        $settings->number_images_trending = 16;
-        $settings->tax_code_name1 = 'Tax 1';
-        $settings->tax_code_value1 = 10.00;
-        $settings->tax_code_name2 = 'Tax 2';
-        $settings->tax_code_value2 = 5.50;
-        $settings->tax_code_name3 = 'Tax 3';
-        $settings->tax_code_value3 = 7.25;
-
-        $settings->facebook = 'https://www.facebook.com/example';
-        $settings->instagram = 'https://www.instagram.com/example';
-        $settings->twitter = 'https://twitter.com/example';
-        $settings->tiktok = 'https://www.tiktok.com/example';
-        $settings->youtube = 'https://www.youtube.com/example';
-
-        $settings->quantity_unit = 'Units';
-        $settings->shipping_mode = 'Default Shipping Mode';
-        $settings->payment_mode = 'Default Payment Mode';
-        $settings->currency_type = 'USD';
-
-        $settings->save();
+        DB::table('settings')->insert([
+        'website_name' => 'Website Name',
+        'website_url' => 'example.com',
+        'page_title' => 'Home Page Title',
+        'meta_keyword' => 'Site Keywords',
+        'meta_description' => 'Site Description',
+        'logotipo' => 'uploads/settings/logo.jpeg',
+        'company_name' => 'Company Name',
+        'contact_email' => 'contact@example.com',
+        'admin_email' => 'admin@example.com',
+        'billing_email' => 'billing@example.com',
+        'zip_code' => '12345-678',
+        'address1' => 'Company Address 1',
+        'address2' => 'Company Address 2',
+        'phone1' => '+12 345.678.9012',
+        'phone2' => '(+98)7.6543.2101',
+        'phone3' => '0039 246 8135790',
+        'country' => 'Company Country',
+        'banner_section' => 'Default Banner Section',
+        'number_images_trending' => 16,
+        'tax_code_name1' => 'Exemple P.Iva',
+        'tax_code_value1' => '12.345.676/0001-99',
+        'tax_code_name2' => 'Exemple REA',
+        'tax_code_value2' => 'MI.12345-ABCDE',
+        'tax_code_name3' => 'VAT/TAX Included',
+        'tax_code_value3' => '12.1234',
+        'facebook' => 'https://www.facebook.com/example',
+        'instagram' => 'https://www.instagram.com/example',
+        'twitter' => 'https://twitter.com/example',
+        'tiktok' => 'https://www.tiktok.com/example',
+        'youtube' => 'https://www.youtube.com/example',
+        'quantity_unit' => 'Units',
+        'shipping_mode' => 'Default Shipping Mode',
+        'payment_mode' => 'Default Payment Mode',
+        'currency_type' => 'US$',
+        'format_date' => 'Y-m-d',
+        'format_hour' => 'g:i A',
+        'format_number' => '\'.\', \',\'',
+    ]);
     }
 }

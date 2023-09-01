@@ -12,7 +12,7 @@
                 {{ session('message') }}
             </div>
         @endif
-        
+
         <form action="{{ route('settings.update', ['setting' => $settings->id]) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
@@ -31,7 +31,7 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="website_url">Website URL</label>
-                            <input type="url" name="website_url" class="form-control" value="{{ old('website_url', $settings->website_url) }}" />
+                            <input type="text" name="website_url" class="form-control" value="{{ old('website_url', $settings->website_url) }}" />
                             @error('website_url')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
@@ -219,6 +219,48 @@
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="py-1" for="format_date">Formato de data</label><br />
+
+                            <input type='radio' name='format_date' value='Y-m-d' {{ $settings->format_date == 'Y-m-d' ? 'checked' : '' }} />
+                            <span class="small">{{ now()->format('Y-m-d') }}</span><code>Y-m-d</code><br />
+                            <input type='radio' name='format_date' value='Y-m-d' {{ $settings->format_date == 'Y-m-d' ? 'checked' : '' }} />
+                            <span class="small">{{ now()->format('Y/m/d') }}</span><code>Y/m/d</code><br />
+                            <input type='radio' name='format_date' value='m/d/Y' {{ $settings->format_date == 'm/d/Y' ? 'checked' : '' }} />
+                            <span class="small">{{ now()->format('m/d/Y') }}</span><code>m/d/Y</code><br />
+
+                            <input type='radio' name='format_date' value='d/m/Y' {{ $settings->format_date == 'd/m/Y' ? 'checked' : '' }} />
+                            <span class="small">{{ now()->format('d/m/Y') }}</span><code>d/m/Y</code><br /><br />
+
+                            <label class="py-1">Formato de hora</label><br />
+
+                            <input type='radio' name='format_hour' value='H:i' {{ $settings->format_hour == 'H:i' ? 'checked' : '' }} />
+                            <span class="small">16:09</span><code>H:i</code><br />
+
+                            <input type='radio' name='format_hour' value='g:i A' {{ $settings->format_hour == 'g:i A' ? 'checked' : '' }} />
+                            <span class="small">4:09 PM</span><code>g:i A</code>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="py-1">Formato de Número</label><br />
+
+                            <input type="radio" name="format_number" value="0" {{ $settings->format_number == 0 ? 'checked' : '' }} />
+                            <span class="small" class="number-format-text">1.234,56</span>
+                            <code>#.###,##</code><br>
+
+                            <input type="radio" name="format_number" value="1" {{ $settings->format_number == 1 ? 'checked' : '' }} />
+                            <span class="small" class="number-format-text">1,234.56</span>
+                            <code>#,###.##</code><br>
+
+                            <input type="radio" name="format_number" value="2" {{ $settings->format_number == 2 ? 'checked' : '' }} />
+                            <span class="small" class="number-format-text">1234,56</span>
+                            <code>####,##</code><br>
+
+                            <input type="radio" name="format_number" value="3" {{ $settings->format_number == 3 ? 'checked' : '' }} />
+                            <span class="small" class="number-format-text">1234.56</span>
+                            <code>####.##</code>
+                        </div>
+
+
                     </div>
                 </div>
             </div>

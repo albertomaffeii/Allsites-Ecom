@@ -48,6 +48,34 @@ class Setting extends Model
         'shipping_mode',
         'payment_mode',
         'currency_type',
+        'format_date',
+        'format_hour',
+        'format_number',
     ];
 
+    public function formatNumber($number, $decimals)
+    {
+      switch ($this->format_number) {
+          case 0:
+              // Format: 1.234,56 (#.###,##)
+              $formatted_number = number_format($number, $decimals, ',', '.');
+              break;
+          case 1:
+              // Format: 1,234.56 (#,###.##)
+              $formatted_number = number_format($number, $decimals, '.', ',');
+              break;
+          case 2:
+              // Format: 1234,56 (####,##)
+              $formatted_number = number_format($number, $decimals, ',', '');
+              break;
+          case 3:
+              // Format: 1234.56 (####.##)
+              $formatted_number = number_format($number, $decimals, '.', '');
+              break;
+          default:
+              // Default Format
+              $formatted_number = number_format($number);
+      }
+      return $formatted_number;
+    }
 }
