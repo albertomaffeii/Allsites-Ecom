@@ -5,14 +5,16 @@ namespace App\Http\Livewire\Frontend\Checkout;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\Orderitem;
-use Livewire\Component;
+use App\Models\Setting;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Livewire\Component;
 
 class CheckoutShow extends Component
 {
     public $carts, $order, $totalProductAmount = 0;
 
-    public $fullname, $email, $phone, $pincode, $address, $payment_mode = NULL, $payment_id = NULL;
+    public $fullname, $personal_tax_code, $email, $billing_email, $phone, $pincode, $country, $address, $payment_mode = NULL, $payment_id = NULL;
 
     protected $listeners = [
         'validationForAll',
@@ -33,17 +35,17 @@ class CheckoutShow extends Component
             $this->dispatchBrowserEvent('message', [
                 'text' => 'Order placed successfully',
                 'type' => 'success',
-                'status' => 200         
+                'status' => 200
             ]);
             return redirect()->to('thank-you');
         } else {
-            
+
             $this->dispatchBrowserEvent('message', [
                 'text' => 'Something went wrong',
                 'type' => 'error',
-                'status' => 500         
+                'status' => 500
             ]);
-            
+
         }
     }
 
@@ -56,24 +58,29 @@ class CheckoutShow extends Component
     {
         return [
             'fullname' => 'required|string|max:121',
+            'personal_tax_code' => 'required|string|max:20',
             'email' => 'required|email|max:121',
-            'phone' => 'required|string|max:11|min:10',
+            'billing_email' => 'required|email|max:121',
+            'phone' => 'required|string|max:20|min:10',
             'pincode' => 'required|string|max:8|min:5',
+            'country' => 'required|string|max:20',
             'address' => 'required|string|max:500',
-
         ];
-    } 
+    }
 
-    public function placeOrder() 
+    public function placeOrder()
     {
         $this->validate();
         $order = Order::create([
             'user_id' => auth()->user()->id,
             'tracking_no'=> Str::random(10),
             'fullname' => $this->fullname,
+            'personal_tax_code' => $this->personal_tax_code,
             'email' => $this->email,
+            'billing_email' => $this->billing_email,
             'phone' => $this->phone,
             'pincode' => $this->pincode,
+            'country' => $this->country,
             'address' => $this->address,
             'status_message' => 'Order Received',
             'payment_mode' => $this->payment_mode,
@@ -81,20 +88,21 @@ class CheckoutShow extends Component
         ]);
 
         foreach ($this->carts as $cartItem) {
-
             $order = Orderitem::create([
                 'order_id' => $order->id,
                 'product_id' => $cartItem->product_id,
                 'product_color_id' => $cartItem->product_color_id,
                 'quantity' => $cartItem->quantity,
+                'quantity_unit' => $cartItem->quantity_unit,
                 'price' => $cartItem->product->selling_price
             ]);
 
             if ($cartItem->product_color_id != NULL) {
 
                 $cartItem->productColor()->where('id', $cartItem->product_color_id)->decrement('quantity', $cartItem->quantity);
+
             } else {
-                
+
                 $cartItem->product()->where('id', $cartItem->product_id)->decrement('quantity', $cartItem->quantity);
             }
         }
@@ -102,7 +110,7 @@ class CheckoutShow extends Component
         return $order;
     }
 
-    public function codOrder() 
+    public function codOrder()
     {
         $this->payment_mode = 'Cash on Delivery';
         $codOrder = $this->placeOrder();
@@ -114,19 +122,19 @@ class CheckoutShow extends Component
             $this->dispatchBrowserEvent('message', [
                 'text' => 'Order placed successfully',
                 'type' => 'success',
-                'status' => 200         
+                'status' => 200
             ]);
 
             return redirect()->to('thank-you');
 
         } else {
-            
+
             $this->dispatchBrowserEvent('message', [
                 'text' => 'Something went wrong',
                 'type' => 'error',
-                'status' => 500         
+                'status' => 500
             ]);
-            
+
         }
     }
 
@@ -143,13 +151,20 @@ class CheckoutShow extends Component
 
     public function render()
     {
-
+        $settings = Setting::first();
         $this->fullname = auth()->user()->name;
         $this->email = auth()->user()->email;
         $this->totalProductAmount = $this->totalProductAmount();
+        $this->personal_tax_code = Auth::user()->userDetail->personal_tax_code ?? '';
+        $this->billing_email = Auth::user()->userDetail->billing_email ?? '';
+        $this->country = Auth::user()->userDetail->country ?? '';
+        $this->phone  = Auth::user()->userDetail->phone ?? '';
+        $this->pincode = Auth::user()->userDetail->pin_code ?? '';
+        $this->address = Auth::user()->userDetail->address ?? '';
 
         return view('livewire.frontend.checkout.checkout-show', [
-            'totalProductAmount' => $this->totalProductAmount
+            'totalProductAmount' => $this->totalProductAmount,
+            'settings' => $settings,
         ]);
     }
 }

@@ -74,7 +74,7 @@ body{
    border-bottom: 1px solid #ccc;
 }
 .main-navbar .top-navbar{
-   background-color: #2874f0;
+   background-color: #606163;
    padding-top: 10px;
    padding-bottom: 10px;
 }
@@ -377,7 +377,7 @@ body{
 -------------------------------------------------------------------*/
 .footer-area{
     padding: 40px 0px;
-    background-color: #2874f0;
+    background-color: #606163;;
     color: #fff;
 }
 .footer-area a{

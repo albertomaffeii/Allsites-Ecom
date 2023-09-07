@@ -4,6 +4,8 @@ namespace App\Http\Livewire\Frontend\Cart;
 
 use Livewire\Component;
 use App\Models\Cart;
+use App\Models\Setting;
+
 
 class CartShow extends Component
 {
@@ -16,25 +18,25 @@ class CartShow extends Component
         $this->dispatchBrowserEvent('message', [
             'text' => 'Cart item removed successfully',
             'type' => 'success',
-            'status' => 200         
+            'status' => 200
         ]);
     }
 
     public function decrementQuantity(Int $cardId)
     {
         $cartData = Cart::where('id', $cardId)->where('user_id', auth()->user()->id)->first();
-        if ($cartData) 
+        if ($cartData)
         {
             if($cartData->productColor()->where('id', $cartData->product_color_id)->first())
             {
                 $productColor = $cartData->productColor()->where('id', $cartData->product_color_id)->first();
                 if($cartData->quantity >= 1){
-                
+
                     $cartData->decrement('quantity');
                     $this->dispatchBrowserEvent('message', [
                         'text' => 'Quantity updated',
                         'type' => 'success',
-                        'status' => 200         
+                        'status' => 200
                     ]);
                 } else {
                     $this->dispatchBrowserEvent('message', [
@@ -49,7 +51,7 @@ class CartShow extends Component
                     $this->dispatchBrowserEvent('message', [
                         'text' => 'Quantity updated',
                         'type' => 'success',
-                        'status' => 200         
+                        'status' => 200
                     ]);
                 } else {
                     $msgText = ($cartData->product->quantity == 1) ? " unit available" : " units available";
@@ -61,11 +63,11 @@ class CartShow extends Component
                 }
             }
         } else {
-            
+
             $this->dispatchBrowserEvent('message', [
                 'text' => 'Something went wrong!',
                 'type' => 'error',
-                'status' => 404         
+                'status' => 404
             ]);
         }
     }
@@ -73,18 +75,18 @@ class CartShow extends Component
     public function incrementQuantity(Int $cardId)
     {
         $cartData = Cart::where('id', $cardId)->where('user_id', auth()->user()->id)->first();
-        if ($cartData) 
+        if ($cartData)
         {
             if($cartData->productColor()->where('id', $cartData->product_color_id)->first())
             {
                 $productColor = $cartData->productColor()->where('id', $cartData->product_color_id)->first();
                 if($productColor->quantity > $cartData->quantity){
-                
+
                     $cartData->increment('quantity');
                     $this->dispatchBrowserEvent('message', [
                         'text' => 'Quantity updated',
                         'type' => 'success',
-                        'status' => 200         
+                        'status' => 200
                     ]);
                 } else {
                     $msgText = ($productColor->quantity == 1) ? " unit available" : " units available";
@@ -101,7 +103,7 @@ class CartShow extends Component
                     $this->dispatchBrowserEvent('message', [
                         'text' => 'Quantity updated',
                         'type' => 'success',
-                        'status' => 200         
+                        'status' => 200
                     ]);
                 } else {
                     $msgText = ($cartData->product->quantity == 1) ? " unit available" : " units available";
@@ -113,27 +115,29 @@ class CartShow extends Component
                 }
             }
         } else {
-            
+
             $this->dispatchBrowserEvent('message', [
                 'text' => 'Something went wrong!',
                 'type' => 'error',
-                'status' => 404         
+                'status' => 404
             ]);
         }
     }
 
     public function render()
     {
+        $settings = Setting::first();
         $this->cart = Cart::where('user_id', auth()->user()->id)
         ->join('products', 'carts.product_id', '=', 'products.id')
         ->orderBy('products.name', 'ASC')
         ->select('carts.*', 'products.quantity as product_quantity')
-        ->with('product') // Carregar os produtos associados
+        ->with('product')
         ->get();
-    
+
         return view('livewire.frontend.cart.cart-show', [
-            'cart' => $this->cart
+            'cart' => $this->cart,
+            'settings' => $settings
         ]);
     }
-    
+
 }

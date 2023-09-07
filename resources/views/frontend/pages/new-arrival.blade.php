@@ -29,8 +29,8 @@
                                     <a href="{{ url('/collections/'.$productItem->category->slug.'/'.$productItem->slug) }}">{{ $productItem->name }}</a>
                                 </h5>
                                 <div>
-                                    <span class="selling-price">${{ $productItem->selling_price }}</span>
-                                    <span class="original-price">${{ $productItem->original_price }}</span>
+                                    <span class="selling-price">{{ $appSetting->currency_type }} {{ $settings->formatNumber($productItem->selling_price, 2) }}</span>
+                                    <span class="original-price">{{ $appSetting->currency_type }} {{ $settings->formatNumber($productItem->original_price, 2) }}</span>
                                 </div>
                                 <div class="mt-2">
                                     <a href="" class="btn btn1">Add To Cart</a>

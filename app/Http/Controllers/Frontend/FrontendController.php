@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Slider;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Setting;
 
 class FrontendController extends Controller
 {
@@ -16,7 +17,8 @@ class FrontendController extends Controller
         $trendingProducts = Product::where('trending','1')->latest()->take(15)->get();
         $newArrivalsProdcts = Product::latest()->take(14)->get();
         $featuredProducts = Product::where('featured','1')->latest()->take(14)->get();
-        return view('frontend.index', compact('sliders', 'trendingProducts', 'newArrivalsProdcts', 'featuredProducts'));
+        $settings = Setting::first();
+        return view('frontend.index', compact('sliders', 'trendingProducts', 'newArrivalsProdcts', 'featuredProducts', 'settings'));
     }
 
     public function searchProducts(Request $request)
@@ -38,14 +40,17 @@ class FrontendController extends Controller
 
     public function newArrival()
     {
+
+        $settings = Setting::first();
         $newArrivalsProdcts = Product::latest()->take(16)->get();
-        return view('frontend.pages.new-arrival', compact('newArrivalsProdcts'));
+        return view('frontend.pages.new-arrival', compact('newArrivalsProdcts', 'settings'));
     }
 
     public function featuredProducts()
     {
+        $settings = Setting::first();
         $featuredProducts = Product::where('featured','1')->latest()->get();
-        return view('frontend.pages.featured-products', compact('featuredProducts'));
+        return view('frontend.pages.featured-products', compact('featuredProducts', 'settings'));
     }
 
     public function categories()
@@ -60,8 +65,9 @@ class FrontendController extends Controller
 
         if($category) {
 
+            $settings = Setting::first();
             $products = $category->products()->get();
-            return view('frontend.collections.products.index', compact('products', 'category'));
+            return view('frontend.collections.products.index', compact('products', 'category', 'settings'));
 
         } else {
 
@@ -71,13 +77,14 @@ class FrontendController extends Controller
 
     public function productView(string $category_slug, string $product_slug)
     {
+        $settings = Setting::first();
         $category = Category::where('slug', $category_slug)->first();
         if($category)
         {
             $product = $category->products()->where('slug', $product_slug)->where('status', '0')->first();
             if($product)
             {
-                return view('frontend.collections.products.view', compact('product', 'category'));
+                return view('frontend.collections.products.view', compact('product', 'category', 'settings'));
             } else {
                 return redirect()->back();
             }

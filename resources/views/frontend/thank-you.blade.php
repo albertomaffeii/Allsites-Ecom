@@ -14,8 +14,7 @@
                   </div>
                @endif
                <div class="p-4 m-5 shadow bg-white">
-                  <h2>Your Logo</h2>
-                  <h4>Thank You for Shopping with Allsites Ecom</h4>
+                  <h4>Thank you for shopping with Allsites Ecom</h4>
                   <br />
                   <a href="{{ route('collections') }}" class="btn btn-primary">Shop now</a>
                </div>

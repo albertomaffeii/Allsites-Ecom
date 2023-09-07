@@ -76,9 +76,9 @@
                                             @endif
                                         @endif
                                     </td>
-                                    <td width="10%">${{ $orderItem->price }}</td>
-                                    <td width="10%">{{ $orderItem->quantity }}</td>
-                                    <td width="10%" class="fw-bold">${{ $orderItem->quantity * $orderItem->price }}</td>
+                                    <td width="10%">{{ $appSetting->currency_type }} {{ $settings->formatNumber($orderItem->price, 2) }}</td>
+                                    <td width="10%">{{ $settings->formatNumber($orderItem->quantity, 4) }}</td>
+                                    <td width="10%" class="fw-bold">{{ $appSetting->currency_type }} {{ $settings->formatNumber($orderItem->quantity * $orderItem->price, 2) }}</td>
                                     @php
                                         $subtotalPrice += $orderItem->quantity * $orderItem->price
                                     @endphp

@@ -38,7 +38,7 @@
                         </div>
                         <div class="col-md-6">
                             <br/>
-                            <button type="submit" class="btn btn-primary text-white btn-sm">Filter</button>
+                            <button type="submit" class="btn btn-primary text-white btn-sm"><span class="fa fa-filter"></span> Filter</button>
                         </div>
                     </div>
                 </form>
@@ -62,10 +62,10 @@
                                     <td>{{ $item->tracking_no }}</td>
                                     <td>{{ $item->fullname }}</td>
                                     <td>{{ $item->payment_mode }}</td>
-                                    <td class="text-center">{{ $item->created_at->format('Y/m/d') }}</td>
+                                    <td class="text-center">{{ $item->created_at->format( $appSetting->format_date) }}</td>
                                     <td>{{ $item->status_message }}</td>
                                     <td class="text-center">
-                                        <a href="{{ url('admin/orders/' . $item->id) }}" class="btn btn-primary btn-sm text-white">view</a>
+                                        <a href="{{ url('admin/orders/' . $item->id) }}" class="btn btn-info btn-sm text-white"><span class="fa fa-eye"></span> View</a>
                                     </td>
                                 </tr>
                             @empty

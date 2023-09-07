@@ -9,12 +9,12 @@
                         <div class="shadow bg-white p-3">
                             <h4 class="text-primary">
                                 Item Total Amount :
-                                <span class="float-end">${{ $this->totalProductAmount }}</span>
+                                <span class="float-end">{{ $appSetting->currency_type }} {{ $settings->formatNumber($this->totalProductAmount,2) }}</span>
                             </h4>
                             <hr>
                             <small>* Items will be delivered in 3 - 5 days.</small>
                             <br/>
-                            <small>* Tax and other charges are included ?</small>
+                            <small>* Tax and other charges are included</small>
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -27,35 +27,56 @@
                                 <div class="col-md-6 mb-3">
                                     <label>Full Name</label>
                                     <input type="text" wire:model.defer="fullname" id="fullname" class="form-control" placeholder="Enter Full Name" />
-                                    @error('fullname') 
+                                    @error('fullname')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label>Phone Number</label>
-                                    <input type="number" wire:model.defer="phone" id="phone" class="form-control" placeholder="Enter Phone Number" />
-                                    @error('phone') 
+                                    <label>Personal Tax Code</label>
+                                    <input type="text" wire:model.defer="personal_tax_code" id="personal_tax_code" class="form-control" placeholder="Enter Personal Tax Code" />
+                                    @error('personal_tax_code')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label>Email Address</label>
                                     <input type="email" wire:model.defer="email" id="email" class="form-control" placeholder="Enter Email Address" />
-                                    @error('email') 
+                                    @error('email')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
                                 <div class="col-md-6 mb-3">
+                                    <label>Billing Email </label>
+                                    <input type="email" wire:model.defer="billing_email" id="billing_email" class="form-control" placeholder="Enter Billing Email" />
+                                    @error('billing_email')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label>Phone Number</label>
+                                    <input type="text" wire:model.defer="phone" id="phone" class="form-control" placeholder="Enter Phone Number" />
+                                    @error('phone')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                                <div class="col-md-2 mb-3">
                                     <label>Pin-code (Zip-code)</label>
                                     <input type="number" wire:model.defer="pincode" id="pincode" class="form-control" placeholder="Enter Pin-code" />
-                                    @error('pincode') 
+                                    @error('pincode')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label>Country</label>
+                                    <input type="text" wire:model.defer="country" id="country" value="{{ Auth::user()->userDetail->country ?? '' }}" class="form-control" placeholder="Enter your country" />
+                                    @error('country')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
                                 <div class="col-md-12 mb-3">
                                     <label>Full Address</label>
                                     <textarea wire:model.defer="address" id="address" class="form-control" rows="2"></textarea>
-                                    @error('address') 
+                                    @error('address')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
@@ -93,7 +114,7 @@
                         </div>
                     </div>
                 </div>
-            @else            
+            @else
                 <div class="card card-body shadow text-center p-md-5">
                     <h4>No items in cart to checkout</h4>
                     <a href="{{ route('collections') }}" class="btn btn-warning">Shop Now</a></h4>
@@ -115,7 +136,7 @@
                 || !document.getElementById('email').value
                 || !document.getElementById('pincode').value
                 || !document.getElementById('address').value
-                ) 
+                )
             {
                 Livewire.emit('validationForAll');
                 return false;
@@ -148,7 +169,7 @@
             }
         });
         }
-    }).render('#paypal-button-container'); // HTML element where the PayPal button will be rendered    
+    }).render('#paypal-button-container'); // HTML element where the PayPal button will be rendered
     </script>
 
 @endpush

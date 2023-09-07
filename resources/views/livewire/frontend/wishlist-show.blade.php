@@ -1,7 +1,7 @@
 <div>
     <div class="py-3 py-md-5 bg-light">
         <div class="container">
-    
+
             <div class="row">
                 <div class="col-md-12">
                     <div class="shopping-cart">
@@ -33,7 +33,7 @@
                                             </a>
                                         </div>
                                         <div class="col-md-2 my-auto">
-                                            <label class="price">${{ $wishlistItem->product->selling_price }} </label>
+                                            <label class="price">{{ $appSetting->currency_type }} {{ $settings->formatNumber($wishlistItem->product->selling_price, 2) }} </label>
                                         </div>
                                         <div class="col-md-4 col-12 my-auto">
                                             <div class="remove">

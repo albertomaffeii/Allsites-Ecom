@@ -17,20 +17,18 @@
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th scope="col">#</th>
                                 <th scope="col">Category</th>
                                 <th scope="col">Product</th>
                                 <th scope="col">Price</th>
                                 <th scope="col">Quantity</th>
                                 <th scope="col">Status</th>
-                                <th scope="col" colspan='2'><center>Action</center></th>
+                                <th scope="col" class="text-center" colspan='2'>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse($products as $item)
                                 <tr>
-                                    <td scope="row">{{ $loop->index +1 }}</td>
-                                    <td>
+                                    <td scope="row">
                                         @if($item->category)
                                             {{ $item->category->name}}
                                         @else
@@ -38,8 +36,8 @@
                                         @endif
                                     </td>
                                     <td>{{ $item->name }}</td>
-                                    <td>{{ $item->selling_price }}</td>
-                                    <td>{{ $item->quantity }}</td>
+                                    <td>{{ $appSetting->currency_type }} {{ $settings->formatNumber($item->selling_price, 2) }}</td>
+                                    <td>{{ $settings->formatNumber($item->quantity, 4) }}</td>
                                     <td>{{ $item->status == '1' ? 'Hidden':'visible' }}</td>
                                     <td class="text-align: center">
                                         <a href="{{ url('admin/products/' . $item->id . '/edit') }}" class="btn btn-success btn-sm text-white">Edit</a>

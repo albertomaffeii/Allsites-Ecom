@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
+use App\Mail\InvoiceOrderMailable;
 use App\Models\Order;
 use App\Models\Setting;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -33,8 +35,9 @@ class OrderController extends Controller
     public function show(int $orderId)
     {
         $order = Order::where('id', $orderId)->first();
+        $settings = Setting::first();
         if ($order) {
-            return view('admin.orders.view', compact('order'));
+            return view('admin.orders.view', compact('order','settings'));
         } else {
             return redirect()->route('admin.orders')->with('message', 'Order not found');
         }
@@ -61,27 +64,26 @@ class OrderController extends Controller
     }
 
     public function generateInvoice(int $orderId)
-{
-    $order = Order::findOrFail($orderId);
-    $settings = Setting::first();
-    $pdf = Pdf::loadView('admin.invoice.generate-invoice', compact('order', 'settings'));
-
-    $todayDate = Carbon::now()->format('Y-m-d');
-    $invoiceNumber = sprintf('%06d', $order->id);
-
-    return $pdf->download('Invoice#-' . $invoiceNumber . '-' . $todayDate . '.pdf');
-}
-
-    public function generateInvoice_OLD(int $orderId)
     {
         $order = Order::findOrFail($orderId);
-        $data = ['order' => $order];
-
-        $pdf = Pdf::loadView('admin.invoice.generate-invoice', $data);
+        $settings = Setting::first();
+        $pdf = Pdf::loadView('admin.invoice.generate-invoice', compact('order', 'settings'));
 
         $todayDate = Carbon::now()->format('Y-m-d');
         $invoiceNumber = sprintf('%06d', $order->id);
 
         return $pdf->download('Invoice#-' . $invoiceNumber . '-' . $todayDate . '.pdf');
     }
+
+    public function mailInvoice(int $orderId)
+    {
+        try{
+            $order = Order::findOrFail($orderId);
+            Mail::to($order->billing_email)->send(new InvoiceOrderMailable($order));
+            return redirect('admin/orders/' . $orderId)->with('message','Invoice mail has been sent to ' . $order->billing_email);
+        } catch(\Exception $e) {
+            return redirect('admin/orders/' . $orderId)->with('message','Something went wrong!');
+        }
+    }
+    
 }
