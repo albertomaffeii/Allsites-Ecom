@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Frontend;
 
 use Livewire\Component;
 use App\Models\Wishlist;
+use App\Models\Setting;
 
 class WishlistShow extends Component
 {
@@ -14,15 +15,17 @@ class WishlistShow extends Component
         $this->dispatchBrowserEvent('message', [
             'text' => 'Wishlist item removed successfully',
             'type' => 'success',
-            'status' => 200         
+            'status' => 200
         ]);
     }
-    
+
     public function render()
     {
-        $wishlist = Wishlist::where('user_id', auth()->user()->id)->get();    
+        $settings = Setting::first();
+        $wishlist = Wishlist::where('user_id', auth()->user()->id)->get();
         return view('livewire.frontend.wishlist-show', [
-            'wishlist' => $wishlist
+            'wishlist' => $wishlist,
+            'settings' => $settings
         ]);
     }
 }

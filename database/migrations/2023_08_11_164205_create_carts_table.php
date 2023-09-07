@@ -16,7 +16,8 @@ return new class extends Migration
             $table->integer('user_id');
             $table->integer('product_id');
             $table->integer('product_color_id')->nullable();
-            $table->integer('quantity');
+            $table->decimal('quantity', 10, 4);
+            $table->string('quantity_unit', 10)->nullable();
             $table->timestamps();
         });
     }

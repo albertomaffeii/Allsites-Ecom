@@ -9,7 +9,8 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\SliderController;
-use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Frontend\UserAdminController;
+use App\Http\Controllers\Frontend\UserController;
 use App\Http\Controllers\Frontend\WishlistController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\CheckoutController;
@@ -40,6 +41,11 @@ Route::group(['prefix' => 'frontend'], function () {
     Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist')->middleware('auth');
     Route::get('/cart', [CartController::class, 'index'])->name('cart')->middleware('auth');
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout')->middleware('auth');
+
+    Route::get('/profile', [UserController::class, 'index'])->name('profile')->middleware('auth');
+    Route::get('/change-password', [UserController::class, 'passwordCreate'])->name('passwordCreate')->middleware('auth');
+    Route::post('/change-password', [UserController::class, 'changePassword'])->name('changePassword')->middleware('auth');
+    Route::post('/profile', [UserController::class, 'updateUserDetails'])->name('updateUserDetails')->middleware('auth');
 });
 
 Route::get('orders', [OrderController::class, 'index'])->name('orders')->middleware('auth');
@@ -65,6 +71,7 @@ Route::prefix('admin')->middleware('auth', 'isAdmin')->group(function () {
 
         Route::get('/invoice/{orderId}', 'viewInvoice');
         Route::get('/invoice/{orderId}/generate', 'generateInvoice');
+        Route::get('/invoice/{orderId}/mail', 'mailInvoice');
     });
 
     // Category Routes
@@ -112,7 +119,7 @@ Route::prefix('admin')->middleware('auth', 'isAdmin')->group(function () {
     });
 
     // Admin Users Routes
-    Route::controller(UserController::class)->group(function () {
+    Route::controller(UserAdminController::class)->group(function () {
         //Route::
 
     });

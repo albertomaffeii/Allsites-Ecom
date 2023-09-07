@@ -18,21 +18,24 @@ class Order extends Model
         'user_id',
         'tracking_no',
         'fullname',
+        'personal_tax_code',
         'email',
+        'billing_email',
         'phone',
         'pincode',
+        'country',
         'address',
         'status_message',
         'payment_mode',
         'payment_id'
     ];
 
-    
+
     public function orderItems(): HasMany
     {
         return $this->hasMany(Orderitem::class, 'order_id', 'id');
     }
-    
+
 
 
 }

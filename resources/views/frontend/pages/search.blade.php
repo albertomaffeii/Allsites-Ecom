@@ -33,8 +33,8 @@
                                         <a href="{{ url('/collections/'.$productItem->category->slug.'/'.$productItem->slug) }}">{{ $productItem->name }}</a>
                                     </h5>
                                     <div>
-                                        <span class="selling-price">${{ $productItem->selling_price }}</span>
-                                        <span class="original-price">${{ $productItem->original_price }}</span>
+                                        <span class="selling-price">{{ $appSetting->currency_type }} {{ $settings->formatNumber($productItem->selling_price, 2) }}</span>
+                                        <span class="original-price">{{ $appSetting->currency_type }} {{ $settings->formatNumber($productItem->original_price, 2) }}</span>
                                     </div>
                                     <p style="height: 70px; overflow: hidden">
                                         <strong>Description: </strong> {{ $productItem->description }}

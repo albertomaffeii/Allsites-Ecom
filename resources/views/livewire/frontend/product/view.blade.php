@@ -6,7 +6,6 @@
                     <div class="col-md-5 mt-3">
                         <div class="bg-white border" wire:ignore>
                             @if($product->productImages)
-                                {{-- <img src="{{ asset($product->productImages[0]->image) }}" class="w-100" alt="{{ $product->name }}"> --}}
                                 <div class="exzoom" id="exzoom">
                                     <!-- Images -->
                                     <div class="exzoom_img_box">
@@ -37,15 +36,13 @@
                                 <a href="/">Home</a> / <a href="{{ url('/collections/' . $product->category->slug) }}">{{ $product->category->name }}</a> / {{ $product->name }}
                             </p>
                             <div>
-                                <span class="selling-price">${{ $product->selling_price }}</span>
-                                <span class="original-price">${{ $product->original_price }}</span>
+                                <span class="selling-price">{{ $appSetting->currency_type }} {{ $settings->formatNumber($product->selling_price, 2) }}</span>
+                                <span class="original-price">{{ $appSetting->currency_type }} {{ $settings->formatNumber($product->original_price, 2) }}</span>
                             </div>
                             <div>
                                 @if($product->productColors->count() > 0)
                                     @if($product->productColors)
                                         @foreach($product->productColors as $colorItem)
-                                            {{-- &nbsp;&nbsp;<input type="radio" name="colorSelection" value="{{ $colorItem->id }}" /> {{ $colorItem->color->name }} &nbsp;&nbsp;| --}}
-
                                             <label class="colorSelectionLabel text-white" style="background-color: {{ $colorItem->color->code }}" wire:click="colorSelected({{ $colorItem->id }})">{{ $colorItem->color->name }}</label>
                                         @endforeach
                                     @endif
@@ -71,6 +68,7 @@
                                     <span class="btn btn1" wire:click="decrementQuantity"><i class="fa fa-minus"></i></span>
                                     <input type="text" wire:model="quantityCount" value="{{ $this->quantityCount }}" readonly class="input-quantity" />
                                     <span class="btn btn1" wire:click="incrementQuantity"><i class="fa fa-plus"></i></span>
+                                    <input type="hidden" wire:model="quantity_unit" value="{{ $product->quantity_unit }}" />
                                 </div>
                             </div>
                             <div class="mt-2">
