@@ -4,9 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
-use Illuminate\Http\Request;
 use App\Http\Requests\SettingFormRequest;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 
 class SettingController extends Controller
@@ -45,6 +43,6 @@ class SettingController extends Controller
             $settings->save();
         }
 
-        return redirect()->route('settings')->with('message', 'Configurações atualizadas com sucesso!');
+        return redirect()->route('settings')->with('message', 'Settings updated successfully!');
     }
 }

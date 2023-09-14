@@ -9,8 +9,8 @@
          <div class="row">
             <div class="col-md-12 text-center">
                @if(session('message'))
-                  <div class="alert alert-success">
-                     {{ session('message') }}
+                  <div class="alert alert-success p-4">
+                     {!! session('message') !!}
                   </div>
                @endif
                <div class="p-4 m-5 shadow bg-white">

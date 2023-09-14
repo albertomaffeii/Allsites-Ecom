@@ -1,13 +1,9 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <title> @yield('title') | {{ config('app.name', 'Allsites Ecom') }}</title>
 
     <!-- plugins:css -->
@@ -15,8 +11,6 @@
     <link rel="stylesheet" href="{{ asset('admin/vendors/base/vendor.bundle.base.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
-
-    <!-- endinject -->
     <!-- plugin css for this page -->
     <link rel="stylesheet" href="{{ asset('admin/vendors/datatables.net-bs4/dataTables.bootstrap4.css') }}">
     <!-- End plugin css for this page -->
@@ -24,22 +18,26 @@
     <!-- inject:css -->
     <link rel="stylesheet" href="{{ asset('admin/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('admin/css/style.css') }}">
-
     <!-- endinject -->
 
     <link rel="shortcut icon" href="{{ asset('admin/images/favicon.png') }}" />
+    <style>
+        .form-control{
+            border: 1px solid #ddd;
+        }
 
+        .sidebar .nav .nav-item.active{
+            background-color: #e9e9e9;
+        }
+    </style>
     @livewireStyles
-
 </head>
 <body>
 
     <div class="container-scroller">
-
         @include('layouts.inc.admin.navbar')
 
         <div class="divcontainer-fluid page-boby-wrapper">
-
             @include('layouts.inc.admin.sidebar')
 
             <div class="main-panel">

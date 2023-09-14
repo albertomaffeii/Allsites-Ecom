@@ -14,18 +14,20 @@ return new class extends Migration
         Schema::create('user_details', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->unique();
-            $table->string('personal_tax_code',20);
-            $table->string('billing_email',121);
-            $table->string('phone',20);
-            $table->string('pin_code',10);
-            $table->string('country',20);
-            $table->text('address', 500);
+            $table->string('personal_tax_code', 20)->nullable();
+            $table->string('billing_email', 121)->nullable();
+            $table->string('phone', 20)->nullable();
+            $table->string('pin_code', 10)->nullable();
+            $table->string('country', 20)->nullable();
+            $table->text('address', 500)->nullable();
+            $table->string('profile_image', 100)->nullable();
+            $table->text('panel_color', 20)->default('bg-light');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
 
-    /**
+     /**
      * Reverse the migrations.
      */
     public function down(): void

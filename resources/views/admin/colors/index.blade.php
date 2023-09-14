@@ -10,7 +10,7 @@
                 {{ session('message') }}
             </div>
         @endif
-        
+
         <div class="card">
             <div class="card-header">
                 <h4>Colors List
@@ -34,7 +34,7 @@
                                     <td scope="row">{{ $loop->index +1 }}</td>
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->code }}</td>
-                                    <td>{{ $item->status == '1' ? 'Hidden':'visible' }}</td>
+                                    <td>{{ $item->status == '1' ? 'Hidden':'Visible' }}</td>
                                     <td>
                                         <center>
                                             <a href="{{ url('admin/colors/' . $item->id . '/edit') }}" class="btn btn-success btn-sm text-white">Edit</a>
@@ -56,7 +56,7 @@
                             @endforelse
                         </tbody>
                     </table>
-                    <div>                        
+                    <div>
                 </div>
             </div>
         </div>

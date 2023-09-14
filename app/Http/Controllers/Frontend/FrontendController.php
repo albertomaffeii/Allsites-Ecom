@@ -24,6 +24,7 @@ class FrontendController extends Controller
     public function searchProducts(Request $request)
     {
         $searchTerm = $request->search;
+        $settings = Setting::first();
 
         if ($searchTerm) {
             $searchProducts = Product::where('name', 'LIKE', '%' . $searchTerm . '%')
@@ -32,7 +33,7 @@ class FrontendController extends Controller
 
             $totalProducts = $searchProducts->total();
 
-            return view('frontend.pages.search', compact('searchProducts', 'totalProducts'));
+            return view('frontend.pages.search', compact('searchProducts', 'totalProducts', 'settings'));
         } else {
             return redirect()->back()->with('message', 'Empty Search');
         }
