@@ -21,6 +21,8 @@ class UserDetail extends Model
         'country',
         'address',
         'user_id',
+        'profile_image',
+        'panel_color',
     ];
 
     public function user()

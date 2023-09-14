@@ -1,22 +1,21 @@
 <?php
-use App\Http\Middleware\AdminMiddleware;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\AdminProfileController;
 use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ColorController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\SliderController;
+use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Frontend\CheckoutController;
+use App\Http\Controllers\Frontend\FrontendController;
+use App\Http\Controllers\Frontend\OrderController;
 use App\Http\Controllers\Frontend\UserAdminController;
 use App\Http\Controllers\Frontend\UserController;
 use App\Http\Controllers\Frontend\WishlistController;
-use App\Http\Controllers\Frontend\CartController;
-use App\Http\Controllers\Frontend\CheckoutController;
-use App\Http\Controllers\Frontend\OrderController;
-use App\Http\Controllers\Frontend\FrontendController;
-use Sabberworm\CSS\Settings;
+use App\Http\Controllers\HomeController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
@@ -57,11 +56,15 @@ Route::prefix('admin')->middleware('auth', 'isAdmin')->group(function () {
 
     //Dashboard Route
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
+    Route::get('/search', [DashboardController::class, 'adminSearch'])->name('admin.search')->middleware('auth');
 
     //Settings Route
     Route::get('settings', [SettingController::class, 'index'])->name('settings')->middleware('auth');
     Route::put('settings/{setting}', [SettingController::class, 'update'])->name('settings.update')->middleware('auth');
 
+    //Profile admin Route
+    Route::get('/profile', [AdminProfileController::class, 'index'])->name('admin.profile')->middleware('auth');
+    Route::put('/profile', [AdminProfileController::class, 'update'])->name('admin.profile.update')->middleware('auth');
 
     // Admin Orders and Invoices Routes
     Route::controller(App\Http\Controllers\Admin\OrderController::class)->group(function () {

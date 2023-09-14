@@ -2,11 +2,13 @@
 
 namespace App\Http\Livewire\Frontend\Checkout;
 
+use App\Mail\PlaceOrderMailable;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\Orderitem;
 use App\Models\Setting;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Livewire\Component;
 
@@ -30,6 +32,13 @@ class CheckoutShow extends Component
         if ($codOrder) {
 
             Cart::where('user_id', auth()->user()->id)->delete();
+
+            try{
+                $order = Order::findOrFail($codOrder->id);
+                Mail::to("$order->billing_email")->send(new PlaceOrderMailable($order));
+            } catch(\Exception $e){
+                return redirect('thank-you')->with('message', '<h2>Oops! Something Went Wrong</h2><p>We´re sorry, but there was an issue sending your order confirmation email. Please don´t worry; your order has been received and is being processed.<br />If you have any concerns or need further assistance, please don´t hesitate to contact our customer support team.</p>');
+            }
 
             session()->flash('message', 'Order placed successfully');
             $this->dispatchBrowserEvent('message', [
@@ -114,9 +123,18 @@ class CheckoutShow extends Component
     {
         $this->payment_mode = 'Cash on Delivery';
         $codOrder = $this->placeOrder();
+
         if ($codOrder) {
 
             Cart::where('user_id', auth()->user()->id)->delete();
+
+            try{
+                $order = Order::findOrFail($codOrder->order_id);
+
+                Mail::to($order->billing_email)->send(new PlaceOrderMailable($order));
+            }catch(\Exception $e){
+                return redirect('thank-you')->with('message', '<h2>Oops! Something Went Wrong</h2><p>We´re sorry, but there was an issue sending your order confirmation email. Please don´t worry; your order has been received and is being processed.<br />If you have any concerns or need further assistance, please don´t hesitate to contact our customer support team.</p>');
+            }
 
             session()->flash('message', 'Order placed successfully');
             $this->dispatchBrowserEvent('message', [

@@ -47,7 +47,11 @@
                             @else
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="fa fa-user"></i> {{ Auth::user()->name }}
+                                        @if (Auth::user()->userDetail->profile_image)
+                                            <img src="{{ asset(Auth::user()->userDetail->profile_image) }}" class="rounded-circle" width="30px;" height="30px;" alt="profile" /> {{ Auth::user()->name }}
+                                        @else
+                                            <i class="fa fa-user"></i> {{ Auth::user()->name }}
+                                        @endif
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                         <li><a class="dropdown-item" href="{{ route('profile') }}"><i class="fa fa-user"></i> Profile</a></li>
@@ -96,7 +100,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('featured') }}">Featured Products</a>
                         </li>
-                        {{-- 
+                        {{--
                             <li class="nav-item">
                                 <a class="nav-link" href="#">Electronics</a>
                             </li>

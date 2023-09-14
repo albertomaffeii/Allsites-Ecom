@@ -1,5 +1,7 @@
 @extends('layouts.admin')
 
+@section('title', 'Allsites Ecom - Dashboard')
+
 @section('content')
 
 <div class="row">
@@ -12,6 +14,37 @@
             <h2>Dashboard</h2>
             <p class="mb-md-0">Your analytics dashboard</p>
             <hr>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2">
+                <div class="card card-body bg-primary text-white mb-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <label for="total-orders">Users: {{ $totalAllUser }} </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card card-body bg-success text-white mb-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <label for="total-orders">Customers: {{ $totalUser }} </label>
+                        <a href="{{ route('orders.index') }}" class="text-white text-decoration-none small">View</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="card card-body bg-warning text-white mb-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <label for="total-orders">Admin Users: {{ $totalAdmin }} </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="card card-body bg-danger text-white mb-3">
+                    <label for="total-orders">New customer registration: {{ $daysSinceLastRegistration}} days ago</label>
+                </div>
+            </div>
         </div>
 
         <div class="row">
@@ -46,7 +79,7 @@
         </div>
 
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="card card-body bg-primary text-white mb-3">
                     <div class="d-flex justify-content-between align-items-center">
                         <label for="total-orders">Total Products: {{ $totalProducts }}</label>
@@ -72,30 +105,109 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-3">
-                <div class="card card-body bg-primary text-white mb-3">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <label for="total-orders">Allsites Users: {{ $totalAllUser }}</label>
-                        <a href="{{ route('orders.index') }}" class="text-white text-decoration-none small">View</a>
+        <hr>
+
+        <div class="row m-0 py-2 bg-white">
+            <!-- Card 1: Top Sellers By product name -->
+            <div class="col-md-4">
+                <div class="card rounded-lg shadow">
+                    <div class="card-header bg-secondary text-white">
+                        Top sellers by product name
+                    </div>
+                    <div class="card-body text-xs table-responsive m-0 p-0">
+                        <table class="table table-sm text-xs">
+                            <thead>
+                                <tr>
+                                    <th>Procuct</th>
+                                    <th>Qty</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($topSellers as $product)
+                                    <tr>
+                                        <td>{{ $product->name }}</td>
+                                        <td>{{ $product->total_sales }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card card-body bg-success text-white mb-3">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <label for="total-orders">Customers: {{ $totalUser }}</label>
-                        <a href="{{ route('orders.index') }}" class="text-white text-decoration-none small">View</a>
-                    </div>
+                <div class="card-footer">
+                    <p class="text-muted text-xs">
+                        This Month Order
+                    </p>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="card card-body bg-warning text-white mb-3">
-                    <label for="total-orders">Admin: {{ $totalAdmin}}</label>
+
+            <!-- Card 2: Gross Sales By Product -->
+            <div class="col-md-4">
+                <div class="card rounded-lg shadow">
+                    <div class="card-header bg-secondary text-white">
+                        Gross sales by top products
+                    </div>
+                    <div class="card-body text-xs table-responsive m-0 p-0">
+                        <table class="table table-sm text-xs">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($grossSales as $product)
+                                <tr>
+                                    <td>{{ $product->name }}</td>
+                                    <td>{{ $appSetting->currency_type }} {{ $settings->formatNumber($product->total_gross_sales, 2) }}</td>
+                                </tr>
+                                @endforeach
+                                <!-- Linhas da tabela para o Card 2 aqui -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <p class="text-muted text-xs">
+                        This Month Order
+                    </p>
+                </div>
+            </div>
+
+
+            <!-- Card 3: Average Gross Daily Sale -->
+            <div class="col-md-4">
+                <div class="card rounded-lg shadow">
+                    <div class="card-header bg-secondary text-white">
+                        Average gross by ticket/category
+                    </div>
+                    <div class="card-body text-xs table-responsive m-0 p-0">
+                        <table class="table table-sm text-xs">
+                            <thead>
+                                <tr>
+                                    <th>Category</th>
+                                    <th>Average Sales</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($averageGross as $category)
+                                    <tr>
+                                        <td>{{ $category->name }}</td>
+                                        <td>{{ $appSetting->currency_type}} {{
+                                         $settings->formatNumber($category->average_gross_sales, 2)}}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+                <div class="card-footer">
+                    <p class="text-muted text-xs">
+                        This month Order
+                    </p>
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 

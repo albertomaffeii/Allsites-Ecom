@@ -22,8 +22,40 @@
                         </h4>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('updateUserDetails') }}" method="post">
+                        <form action="{{ route('updateUserDetails') }}" method="post" enctype="multipart/form-data">
                             @csrf
+                            <div class="col-md-8 shadow mx-auto">
+                                <div class="card rounded-lg shadow">
+                                    <div class="card-header bg-secondary text-white">
+                                        Customer Image
+                                    </div>
+                                    <div class="card-body text-center text-xs table-responsive m-3 p-0">
+                                        <table class="table table-sm text-xs">
+                                            <thead>
+                                                <tr>
+                                                    <th>Actual Image</th>
+                                                    <th>New Image</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        @if (Auth::user()->userDetail && Auth::user()->userDetail->profile_image)
+                                                            <img src="{{ asset(Auth::user()->userDetail->profile_image) }}" width="120px" alt="Profile Image">
+                                                        @else
+                                                            <img src="{{ asset('uploads/faces/no-image.png') }}" alt="Profile Image">
+                                                        @endif
+                                                    </td>
+                                                    <td style="vertical-align: middle">
+                                                        <input type="file" name="profile_image" class="form-control">
+                                                    </td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="shadow bg-white p-3">
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
